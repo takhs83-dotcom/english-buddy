@@ -302,7 +302,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
     <div class="vpanel">
       <div class="kwrap"><span class="klbl">🇰🇷 한국어</span><div class="tsw" id="kSwM" onclick="toggleKor()"><div class="tsl"></div></div></div>
       <button class="vbtn vbyj" id="vBtn" onclick="toggleListen()"><div class="ripple"></div><span id="vIcon">🎤</span></button>
-      <div class="vinfo"><div class="vstat" id="vStat">버튼을 누르고 말해보세요</div><div class="vhint" id="vHint">말이 끝나면 자동으로 AI가 답해요</div></div>
+      <div class="vinfo"><div class="vstat" id="vStat">버튼을 꾹 누르고 말해보세요</div><div class="vhint" id="vHint">버튼 누르는 동안 말해요 — 손 떼면 전송!</div></div>
     </div>
   </div>
 </div>
@@ -795,42 +795,128 @@ function continueChat(){
   show('chat');
 }
 
-// ══ STT ════════════════════════════════════════
-function toggleListen(){
+// ══ STT — PUSH TO TALK ═════════════════════════
+// 버튼을 누르는 동안 마이크가 켜지고, 손을 떼면 전송돼요.
+// 말 중간에 생각할 시간이 충분해요!
+let accumulated = ''; // 여러 세그먼트 누적
+let silenceTimer = null;
+const SILENCE_DELAY = 1800; // 말 멈춤 후 1.8초 대기 (비원어민 배려)
+
+function startListen(){
   if(loading||spk)return;
-  if(lstn){stopL();return;}
   sy.cancel();
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert('Chrome 또는 Safari를 사용해주세요!');return;}
+
+  accumulated='';
+  clearTimeout(silenceTimer);
+
   const r=new SR();
-  r.lang=kor?'ko-KR':'en-US'; r.continuous=false; r.interimResults=true;
-  r.onstart=()=>{lstn=true;si('⏹️');ss('듣고 있어요... 말해보세요! 🎤');sh('말이 끝나면 자동으로 전송돼요');document.getElementById('vBtn').classList.add('listening');};
-  r.onresult=(e)=>{
-    const t=Array.from(e.results).map(x=>x[0].transcript).join('');
-    if(e.results[e.results.length-1].isFinal) finL(t);
-    else ss(`"${t}"...`);
+  r.lang=kor?'ko-KR':'en-US';
+  r.continuous=true;      // 계속 듣기 — 자동 종료 안 됨
+  r.interimResults=true;
+  r.maxAlternatives=1;
+
+  r.onstart=()=>{
+    lstn=true;
+    si('🔴');
+    ss('누르는 동안 말해요... 천천히 해도 돼요! 🎤');
+    sh('버튼에서 손 떼면 전송돼요');
+    document.getElementById('vBtn').classList.add('listening');
   };
-  r.onerror=(e)=>{stopL();si('🎤');
-    if(e.error==='no-speech') ss('소리가 안 들려요. 다시 눌러보세요');
-    else if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
+
+  r.onresult=(e)=>{
+    // 확정된 텍스트만 누적
+    let finalChunk='';
+    let interimChunk='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) finalChunk+=e.results[i][0].transcript+' ';
+      else interimChunk+=e.results[i][0].transcript;
+    }
+    if(finalChunk) accumulated+=finalChunk;
+
+    // 화면에 실시간 표시
+    const preview=(accumulated+interimChunk).trim();
+    if(preview) ss(`"${preview}"`);
+
+    // 말 멈춤 감지 — 타이머 리셋
+    clearTimeout(silenceTimer);
+    if(lstn){
+      silenceTimer=setTimeout(()=>{
+        // 아직 버튼 누르고 있으면 그냥 계속 대기
+        // (버튼 뗄 때 전송되므로 여기선 아무것도 안 해요)
+      }, SILENCE_DELAY);
+    }
+  };
+
+  r.onerror=(e)=>{
+    if(e.error==='no-speech') return; // 누르는 동안 잠깐 조용한 건 OK
+    stopL();si('🎤');
+    if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
     else ss('오류. 다시 시도해보세요');
   };
-  r.onend=()=>{lstn=false;document.getElementById('vBtn').classList.remove('listening');if(!loading&&!spk)si('🎤');};
-  rec=r; r.start();
+
+  r.onend=()=>{
+    // continuous 모드에서 끊기면 버튼 누르고 있는 동안 자동 재시작
+    if(lstn && !loading && !spk){
+      try{ r.start(); }catch(e){}
+    }
+  };
+
+  rec=r;
+  try{ r.start(); }catch(e){ ss('마이크를 시작할 수 없어요. 다시 눌러보세요'); }
+}
+
+function releaseListen(){
+  // 버튼에서 손 뗄 때 호출 — 지금까지 말한 내용 전송
+  if(!lstn) return;
+  clearTimeout(silenceTimer);
+  lstn=false;
+
+  // 마지막 결과 수집을 위해 잠깐 대기 후 종료
+  if(rec) try{ rec.stop(); }catch(e){}
+  document.getElementById('vBtn').classList.remove('listening');
+
+  setTimeout(()=>{
+    const text=accumulated.trim();
+    accumulated='';
+    if(!text){ ss('말이 감지되지 않았어요. 다시 눌러보세요'); si('🎤'); return; }
+    finL(text);
+  }, 300);
 }
 
 function stopL(){
+  clearTimeout(silenceTimer);
   if(rec)try{rec.stop();}catch(e){}
-  lstn=false; document.getElementById('vBtn').classList.remove('listening');
+  lstn=false; accumulated='';
+  document.getElementById('vBtn').classList.remove('listening');
 }
 
 function finL(t){
-  stopL();
-  if(!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');return;}
+  if(!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');si('🎤');return;}
+  si('🎤'); ss('전송 중...');
   addUser(t);
   ms.push({role:'user',content:kor?`[KOREAN] ${t}`:t});
   callAI(ms,false,null);
 }
+
+// 버튼 이벤트 — 마우스 + 터치 모두 지원
+function setupVoiceBtn(){
+  const btn=document.getElementById('vBtn');
+
+  // 마우스 (PC)
+  btn.addEventListener('mousedown',(e)=>{e.preventDefault();if(!loading&&!spk)startListen();});
+  btn.addEventListener('mouseup',(e)=>{e.preventDefault();releaseListen();});
+  btn.addEventListener('mouseleave',(e)=>{if(lstn)releaseListen();});
+
+  // 터치 (모바일)
+  btn.addEventListener('touchstart',(e)=>{e.preventDefault();if(!loading&&!spk)startListen();},{passive:false});
+  btn.addEventListener('touchend',(e)=>{e.preventDefault();releaseListen();},{passive:false});
+  btn.addEventListener('touchcancel',(e)=>{if(lstn)releaseListen();},{passive:false});
+}
+
+// onclick은 더 이상 사용 안 함 — 이벤트로 대체
+function toggleListen(){ /* push-to-talk으로 교체됨 */ }
 
 // ══ TTS ════════════════════════════════════════
 function speak(text){
@@ -905,11 +991,32 @@ function ss(t){document.getElementById('vStat').textContent=t;}
 function sh(t){document.getElementById('vHint').textContent=t;}
 function si(i){document.getElementById('vIcon').textContent=i;}
 
-// Spacebar = mic toggle on desktop
+// 스페이스바 = push-to-talk (누르는 동안 마이크)
+let spaceHeld=false;
 document.addEventListener('keydown',e=>{
-  if(e.code==='Space'&&!document.getElementById('chat').classList.contains('hidden')&&e.target.tagName!=='INPUT'){
-    e.preventDefault();toggleListen();
+  if(e.code==='Space'&&!spaceHeld&&!document.getElementById('chat').classList.contains('hidden')&&e.target.tagName!=='INPUT'){
+    e.preventDefault(); spaceHeld=true;
+    if(!loading&&!spk) startListen();
   }
+});
+document.addEventListener('keyup',e=>{
+  if(e.code==='Space'&&spaceHeld){
+    e.preventDefault(); spaceHeld=false;
+    releaseListen();
+  }
+});
+
+// 힌트 메시지 업데이트 (채팅 화면 전환 시)
+const _origSetupUI=setupUI;
+setupUI=function(){
+  _origSetupUI();
+  sh('버튼 누르는 동안 말해요 — 손 떼면 전송!');
+  setTimeout(setupVoiceBtn, 100);
+};
+
+// 초기 버튼 설정
+document.addEventListener('DOMContentLoaded', ()=>{
+  setupVoiceBtn();
 });
 </script>
 </body>
