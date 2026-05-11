@@ -6,81 +6,108 @@
 <title>English Buddy 🎤</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow: hidden; font-family: 'Nunito', sans-serif; }
-.screen { position: fixed; inset: 0; display: flex; flex-direction: column; transition: opacity .35s, transform .35s; }
-.screen.hidden { opacity: 0; pointer-events: none; transform: scale(.96); }
-
-/* ── HOME ── */
-#home { background: #06080f; align-items: center; justify-content: center; padding: 32px 20px; overflow-y: auto; }
-.glow { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; opacity: .22; }
-.g1 { width: 500px; height: 500px; background: #0050ff; top: -180px; left: -150px; }
-.g2 { width: 400px; height: 400px; background: #8b00ff; bottom: -100px; right: -100px; }
-.home-inner { position: relative; z-index: 1; width: 100%; max-width: 420px; text-align: center; }
-.logo { font-size: 64px; display: block; animation: float 3.5s ease-in-out infinite; margin-bottom: 8px; }
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-.title { font-family:'Syne',sans-serif; font-size: 38px; font-weight: 800; margin-bottom: 6px; background: linear-gradient(135deg,#60b8ff,#fff,#d080ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.sub { color: rgba(255,255,255,.45); font-size: 13px; font-weight: 700; margin-bottom: 10px; }
-.badge { display:inline-flex; align-items:center; gap:7px; background:rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.2); border-radius:100px; padding:7px 18px; margin-bottom:34px; }
-.badge-dot { width:7px; height:7px; border-radius:50%; background:#00e676; animation:pulse 1.8s ease-in-out infinite; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .35s,transform .35s}
+.screen.hidden{opacity:0;pointer-events:none;transform:scale(.96)}
+.dark-bg{background:#06080f}
+.glow{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.2}
+.g1{width:500px;height:500px;background:#0050ff;top:-180px;left:-150px}
+.g2{width:400px;height:400px;background:#8b00ff;bottom:-100px;right:-100px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-.badge span { color:#00d4ff; font-size:12px; font-weight:700; }
-.who { color:rgba(255,255,255,.3); font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
-.profiles { display:flex; flex-direction:column; gap:14px; }
-.pcard { border-radius:22px; padding:22px 24px; cursor:pointer; border:none; text-align:left; width:100%; position:relative; overflow:hidden; transition:transform .2s, box-shadow .2s; font-family:'Nunito',sans-serif; animation:fadeUp .5s ease both; }
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.pcard:nth-child(1){animation-delay:.1s} .pcard:nth-child(2){animation-delay:.22s}
-.pcard:hover{transform:translateY(-4px)} .pcard:active{transform:scale(.98)}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes vp{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes sp{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes rip{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}
+@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+
+/* ─── API KEY SCREEN ─── */
+#apikey{align-items:center;justify-content:center;padding:32px 20px;overflow-y:auto}
+.api-box{position:relative;z-index:1;width:100%;max-width:460px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:40px 36px;text-align:center;animation:fadeUp .6s ease both}
+.api-logo{font-size:52px;margin-bottom:12px;display:block;animation:float 3s ease-in-out infinite}
+.api-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:8px}
+.api-sub{color:rgba(255,255,255,.45);font-size:14px;line-height:1.65;margin-bottom:28px;font-weight:600}
+.api-sub strong{color:rgba(255,255,255,.8)}
+.api-steps{text-align:left;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
+.api-step{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 14px}
+.snum{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#0070ff);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px}
+.stxt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;font-weight:600}
+.stxt a{color:#00d4ff;text-decoration:none}
+.api-wrap{position:relative;margin-bottom:10px}
+.api-input{width:100%;border-radius:14px;padding:14px 48px 14px 16px;font-size:14px;font-family:'Nunito',sans-serif;font-weight:600;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;transition:border-color .2s;letter-spacing:1px}
+.api-input::placeholder{color:rgba(255,255,255,.25);letter-spacing:0}
+.api-input:focus{outline:none;border-color:rgba(0,212,255,.5)}
+.eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:rgba(255,255,255,.4);padding:4px}
+.api-err{color:#ff6b8a;font-size:13px;font-weight:700;display:none;margin-bottom:10px;text-align:left}
+.api-btn{width:100%;border-radius:14px;padding:15px;border:none;background:linear-gradient(135deg,#00d4ff,#0070ff);color:#fff;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 6px 24px rgba(0,180,255,.35);margin-bottom:12px;transition:opacity .2s,transform .15s}
+.api-btn:hover{opacity:.9;transform:translateY(-1px)}
+.api-note{color:rgba(255,255,255,.25);font-size:12px;font-weight:600;line-height:1.6}
+.api-note span{color:rgba(255,255,255,.45)}
+
+/* ─── HOME ─── */
+#home{align-items:center;justify-content:center;padding:32px 20px;overflow-y:auto}
+.home-inner{position:relative;z-index:1;width:100%;max-width:420px;text-align:center}
+.logo{font-size:64px;display:block;animation:float 3.5s ease-in-out infinite;margin-bottom:8px}
+.title{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#60b8ff,#fff,#d080ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:rgba(255,255,255,.45);font-size:13px;font-weight:700;margin-bottom:10px}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:100px;padding:7px 18px;margin-bottom:34px}
+.bdot{width:7px;height:7px;border-radius:50%;background:#00e676;animation:pulse 1.8s ease-in-out infinite}
+.badge span{color:#00d4ff;font-size:12px;font-weight:700}
+.who{color:rgba(255,255,255,.3);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.profiles{display:flex;flex-direction:column;gap:14px}
+.pcard{border-radius:22px;padding:22px 24px;cursor:pointer;border:none;text-align:left;width:100%;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;font-family:'Nunito',sans-serif}
+.pcard:hover{transform:translateY(-4px)}.pcard:active{transform:scale(.98)}
 .shine{position:absolute;inset:0;background:radial-gradient(circle at 25% 25%,rgba(255,255,255,.07),transparent 65%);pointer-events:none}
 .yj{background:linear-gradient(145deg,#0a1f35,#0c3050);border:1px solid rgba(0,212,255,.22);box-shadow:0 8px 36px rgba(0,120,255,.15)}
 .yj:hover{box-shadow:0 20px 60px rgba(0,180,255,.28)}
 .yg{background:linear-gradient(145deg,#160830,#260d50);border:1px solid rgba(160,80,255,.22);box-shadow:0 8px 36px rgba(100,0,255,.12)}
 .yg:hover{box-shadow:0 20px 60px rgba(150,50,255,.26)}
-.card-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.crow{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .av{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
 .av-yj{background:rgba(0,180,255,.15);border:1px solid rgba(0,180,255,.25)}
 .av-yg{background:rgba(160,80,255,.15);border:1px solid rgba(160,80,255,.25)}
 .cname{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff}
-.cgrade-yj{font-size:12px;font-weight:700;color:#40c8ff;margin-top:2px}
-.cgrade-yg{font-size:12px;font-weight:700;color:#c87fff;margin-top:2px}
+.cg-yj{font-size:12px;font-weight:700;color:#40c8ff;margin-top:2px}
+.cg-yg{font-size:12px;font-weight:700;color:#c87fff;margin-top:2px}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{border-radius:100px;padding:4px 11px;font-size:11px;font-weight:700}
 .ty{background:rgba(0,212,255,.12);color:#40c8ff;border:1px solid rgba(0,212,255,.2)}
 .tg{background:rgba(160,80,255,.12);color:#c87fff;border:1px solid rgba(160,80,255,.2)}
-.foot{color:rgba(255,255,255,.2);font-size:11px;font-weight:600;margin-top:24px}
+.hfoot{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.ftxt{color:rgba(255,255,255,.2);font-size:11px;font-weight:600}
+.chkey{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
+.chkey:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
 
-/* ── CHAT ── */
-#chat { flex-direction:column; }
+/* ─── CHAT ─── */
+#chat{flex-direction:column}
 .th-yj{background:linear-gradient(160deg,#050e1a,#091c30)}
 .th-yg{background:linear-gradient(160deg,#0d0520,#1a0835)}
-.c-header{display:flex;align-items:center;gap:12px;padding:14px 18px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px)}
-.back{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;cursor:pointer;padding:7px 13px;border-radius:11px;font-family:inherit;line-height:1;transition:background .15s}
-.back:hover{background:rgba(255,255,255,.18)}
-.h-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
-.h-name{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff}
-.h-status{font-size:11px;font-weight:700;margin-top:1px}
-.h-badge{margin-left:auto;border-radius:18px;padding:5px 12px;font-size:11px;font-weight:800;flex-shrink:0}
+.chdr{display:flex;align-items:center;gap:12px;padding:14px 18px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px)}
+.back{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;cursor:pointer;padding:7px 13px;border-radius:11px;font-family:inherit;line-height:1}
+.hav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.hname{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff}
+.hstat{font-size:11px;font-weight:700;margin-top:1px}
+.hbadge{margin-left:auto;border-radius:18px;padding:5px 12px;font-size:11px;font-weight:800;flex-shrink:0}
 .msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
 .msgs::-webkit-scrollbar{width:3px}
 .msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
-.msg-row{display:flex;align-items:flex-end;gap:8px;animation:msgIn .28s ease}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.usr-row{flex-direction:row-reverse}
-.m-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.mrow{display:flex;align-items:flex-end;gap:8px;animation:msgIn .28s ease}
+.urow{flex-direction:row-reverse}
 .bub{max-width:76%;padding:12px 16px;font-size:14px;line-height:1.65;font-weight:600;white-space:pre-wrap}
-.bub-ai{border-radius:18px 18px 18px 3px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff}
-.bub-yj{border-radius:18px 18px 3px 18px;background:linear-gradient(135deg,#0080c8,#004a8c);color:#fff}
-.bub-yg{border-radius:18px 18px 3px 18px;background:linear-gradient(135deg,#7b2ff7,#4a00b4);color:#fff}
+.bai{border-radius:18px 18px 18px 3px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff}
+.byj{border-radius:18px 18px 3px 18px;background:linear-gradient(135deg,#0080c8,#004a8c);color:#fff}
+.byg{border-radius:18px 18px 3px 18px;background:linear-gradient(135deg,#7b2ff7,#4a00b4);color:#fff}
 .fix{margin-top:6px;padding:8px 13px;font-size:12px;font-weight:700}
-.fix-yj{background:rgba(0,200,255,.08);border-left:3px solid #00d4ff;color:#70deff}
-.fix-yg{background:rgba(180,80,255,.08);border-left:3px solid #c87fff;color:#dba8ff}
-.typing-row{display:flex;align-items:flex-end;gap:8px}
-.t-bub{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:18px 18px 18px 3px;padding:14px 16px;display:flex;gap:5px;align-items:center}
+.fyj{background:rgba(0,200,255,.08);border-left:3px solid #00d4ff;color:#70deff}
+.fyg{background:rgba(180,80,255,.08);border-left:3px solid #c87fff;color:#dba8ff}
+.trow{display:flex;align-items:flex-end;gap:8px}
+.tbub{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:18px 18px 18px 3px;padding:14px 16px;display:flex;gap:5px;align-items:center}
 .dot{width:7px;height:7px;border-radius:50%;animation:td 1.2s ease-in-out infinite}
-@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
-.voice-panel{flex-shrink:0;padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px);display:flex;align-items:center;gap:20px}
-.kor-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
-.kor-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
+.vpanel{flex-shrink:0;padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px);display:flex;align-items:center;gap:20px}
+.kwrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.klbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
 .tsw{position:relative;width:40px;height:22px;cursor:pointer}
 .tsl{position:absolute;inset:0;border-radius:22px;background:rgba(255,255,255,.15);transition:.3s}
 .tsl:before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.3s}
@@ -90,394 +117,335 @@ html, body { height: 100%; overflow: hidden; font-family: 'Nunito', sans-serif; 
 .vbtn:active{transform:scale(.92)}
 .vbtn.listening{animation:vp 1s ease-in-out infinite}
 .vbtn.speaking{animation:sp .5s ease-in-out infinite}
-@keyframes vp{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-@keyframes sp{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .ripple{position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(255,255,255,.2);animation:rip 1.5s ease-out infinite;display:none}
 .vbtn.listening .ripple,.vbtn.speaking .ripple{display:block}
-@keyframes rip{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}
-.vb-yj{background:linear-gradient(135deg,#00d4ff,#0070ff);box-shadow:0 6px 28px rgba(0,180,255,.4)}
-.vb-yg{background:linear-gradient(135deg,#c87fff,#7b2fff);box-shadow:0 6px 28px rgba(140,50,255,.4)}
-.v-info{flex:1}
-.v-status{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
-.v-hint{font-size:12px;color:rgba(255,255,255,.4);font-weight:600}
+.vbyj{background:linear-gradient(135deg,#00d4ff,#0070ff);box-shadow:0 6px 28px rgba(0,180,255,.4)}
+.vbyg{background:linear-gradient(135deg,#c87fff,#7b2fff);box-shadow:0 6px 28px rgba(140,50,255,.4)}
+.vinfo{flex:1}
+.vstat{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
+.vhint{font-size:12px;color:rgba(255,255,255,.4);font-weight:600}
 .empty{text-align:center;color:rgba(255,255,255,.25);margin:auto;font-size:14px;font-weight:600;padding:40px}
 
-/* desktop layout */
+/* ─── DESKTOP ─── */
 @media(min-width:768px){
   #home{padding:60px 40px}
   .home-inner{max-width:860px}
   .profiles{flex-direction:row;justify-content:center}
   .pcard{width:380px}
-  .title{font-size:52px}
+  .title{font-size:48px}
   #chat{flex-direction:row}
-  .chat-sidebar{width:260px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
-  .chat-main{flex:1;display:flex;flex-direction:column}
-  .sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.07)}
-  .sidebar-logo-txt{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff}
-  .sidebar-logo-sub{font-size:11px;color:rgba(255,255,255,.35);font-weight:600;margin-top:3px}
-  .sidebar-users{padding:16px;display:flex;flex-direction:column;gap:8px}
-  .sidebar-lbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
-  .suser{border-radius:14px;padding:12px 14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;text-align:left;transition:all .2s;display:flex;align-items:center;gap:10px;width:100%}
-  .suser-yj{background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.15)}
-  .suser-yj:hover,.suser-yj.active{background:rgba(0,180,255,.18);border-color:rgba(0,180,255,.35)}
-  .suser-yg{background:rgba(150,50,255,.08);border:1px solid rgba(150,50,255,.15)}
-  .suser-yg:hover,.suser-yg.active{background:rgba(150,50,255,.18);border-color:rgba(150,50,255,.35)}
-  .suser-av{font-size:22px}
-  .suser-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff}
-  .suser-grade-yj{font-size:11px;font-weight:600;color:#40c8ff}
-  .suser-grade-yg{font-size:11px;font-weight:600;color:#c87fff}
-  .sidebar-info{padding:16px;margin-top:auto;border-top:1px solid rgba(255,255,255,.07)}
-  .sidebar-info p{font-size:12px;color:rgba(255,255,255,.35);font-weight:600;line-height:1.6}
-  .back-desktop{margin:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
-  .back-desktop:hover{background:rgba(255,255,255,.1);color:#fff}
-  .c-header .back{display:none}
+  .cside{width:260px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
+  .cmain{flex:1;display:flex;flex-direction:column}
+  .slogo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .slogo-t{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff}
+  .slogo-s{font-size:11px;color:rgba(255,255,255,.35);font-weight:600;margin-top:3px}
+  .susers{padding:16px;display:flex;flex-direction:column;gap:8px}
+  .slbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
+  .su{border-radius:14px;padding:12px 14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;text-align:left;transition:all .2s;display:flex;align-items:center;gap:10px;width:100%}
+  .su-yj{background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.15)}
+  .su-yj:hover,.su-yj.active{background:rgba(0,180,255,.18);border-color:rgba(0,180,255,.35)}
+  .su-yg{background:rgba(150,50,255,.08);border:1px solid rgba(150,50,255,.15)}
+  .su-yg:hover,.su-yg.active{background:rgba(150,50,255,.18);border-color:rgba(150,50,255,.35)}
+  .su-av{font-size:22px}
+  .su-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff}
+  .su-gyj{font-size:11px;font-weight:600;color:#40c8ff}
+  .su-gyg{font-size:11px;font-weight:600;color:#c87fff}
+  .sbot{padding:16px;margin-top:auto;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px}
+  .sinfo{font-size:12px;color:rgba(255,255,255,.35);font-weight:600;line-height:1.6}
+  .ksrow{display:flex;align-items:center;gap:8px}
+  .kslbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
+  .bkd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;text-align:center}
+  .bkd:hover{background:rgba(255,255,255,.1);color:#fff}
+  .chdr .back{display:none}
+  .vpanel .kwrap{display:none}
 }
 </style>
 </head>
 <body>
 
-<!-- ════ HOME ════ -->
-<div id="home" class="screen">
-  <div class="glow g1"></div>
-  <div class="glow g2"></div>
+<!-- API KEY -->
+<div id="apikey" class="screen dark-bg">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="api-box">
+    <span class="api-logo">🔑</span>
+    <h1 class="api-title">처음 한 번만 설정해요</h1>
+    <p class="api-sub">Anthropic API 키를 입력하면<br><strong>이 브라우저에만 저장</strong>되고 외부로 전송되지 않아요.</p>
+    <div class="api-steps">
+      <div class="api-step">
+        <div class="snum">1</div>
+        <div class="stxt"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 로그인</div>
+      </div>
+      <div class="api-step">
+        <div class="snum">2</div>
+        <div class="stxt">왼쪽 메뉴 <strong style="color:#fff">API Keys</strong> 클릭</div>
+      </div>
+      <div class="api-step">
+        <div class="snum">3</div>
+        <div class="stxt"><strong style="color:#fff">Create Key</strong> 후 아래에 붙여넣기</div>
+      </div>
+    </div>
+    <div class="api-wrap">
+      <input class="api-input" type="password" id="apiInput" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false">
+      <button class="eye-btn" onclick="toggleEye()">👁️</button>
+    </div>
+    <div class="api-err" id="apiErr">⚠️ sk-ant- 로 시작하는 키를 입력해주세요.</div>
+    <button class="api-btn" onclick="saveKey()">저장하고 시작하기 🚀</button>
+    <p class="api-note">🔒 키는 <span>이 기기 브라우저에만</span> 저장돼요</p>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="screen dark-bg hidden">
+  <div class="glow g1"></div><div class="glow g2"></div>
   <div class="home-inner">
     <span class="logo">🌏</span>
     <h1 class="title">English Buddy</h1>
     <p class="sub">인도네시아에서 키운 영어, 목소리로 지켜요</p>
-    <div class="badge"><div class="badge-dot"></div><span>완전 음성 대화 • 타이핑 불필요</span></div>
+    <div class="badge"><div class="bdot"></div><span>완전 음성 대화 • 타이핑 불필요</span></div>
     <p class="who">누구세요?</p>
     <div class="profiles">
       <button class="pcard yj" onclick="selectUser('yunjae')">
         <div class="shine"></div>
-        <div class="card-row">
-          <div class="av av-yj">🏊</div>
-          <div style="flex:1">
-            <div class="cname">윤재</div>
-            <div class="cgrade-yj">중학교 1학년 • Jake와 대화</div>
-          </div>
+        <div class="crow"><div class="av av-yj">🏊</div>
+          <div style="flex:1"><div class="cname">윤재</div><div class="cg-yj">중학교 1학년 • Jake와 대화</div></div>
           <div style="color:rgba(255,255,255,.2);font-size:22px">›</div>
         </div>
-        <div class="tags">
-          <span class="tag ty">🌊 수영</span><span class="tag ty">🇮🇩 인도네시아</span>
-          <span class="tag ty">🎤 음성 대화</span><span class="tag ty">✍️ 문법 교정</span>
-        </div>
+        <div class="tags"><span class="tag ty">🌊 수영</span><span class="tag ty">🇮🇩 인도네시아</span><span class="tag ty">🎤 음성 대화</span><span class="tag ty">✍️ 문법 교정</span></div>
       </button>
       <button class="pcard yg" onclick="selectUser('yungeon')">
         <div class="shine"></div>
-        <div class="card-row">
-          <div class="av av-yg">🏅</div>
-          <div style="flex:1">
-            <div class="cname">윤건</div>
-            <div class="cgrade-yg">초등학교 5학년 • Sunny와 대화</div>
-          </div>
+        <div class="crow"><div class="av av-yg">🏅</div>
+          <div style="flex:1"><div class="cname">윤건</div><div class="cg-yg">초등학교 5학년 • Sunny와 대화</div></div>
           <div style="color:rgba(255,255,255,.2);font-size:22px">›</div>
         </div>
-        <div class="tags">
-          <span class="tag tg">🌊 수영</span><span class="tag tg">🇮🇩 인도네시아</span>
-          <span class="tag tg">🎤 음성 대화</span><span class="tag tg">🇰🇷 한국어 도움</span>
-        </div>
+        <div class="tags"><span class="tag tg">🌊 수영</span><span class="tag tg">🇮🇩 인도네시아</span><span class="tag tg">🎤 음성 대화</span><span class="tag tg">🇰🇷 한국어 도움</span></div>
       </button>
     </div>
-    <p class="foot">🎙️ 말하면 AI가 영어로 답해줘요 • API 키 필요</p>
+    <div class="hfoot">
+      <span class="ftxt">🎙️ 말하면 AI가 영어로 답해줘요</span>
+      <button class="chkey" onclick="changeKey()">🔑 API 키 변경</button>
+    </div>
   </div>
 </div>
 
-<!-- ════ CHAT ════ -->
+<!-- CHAT -->
 <div id="chat" class="screen hidden th-yj">
-
-  <!-- 데스크탑 사이드바 -->
-  <div class="chat-sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div style="font-size:28px;margin-bottom:6px">🌏</div>
-      <div class="sidebar-logo-txt">English Buddy</div>
-      <div class="sidebar-logo-sub">AI 영어 음성 대화</div>
+  <div class="cside">
+    <div class="slogo"><div style="font-size:28px;margin-bottom:6px">🌏</div><div class="slogo-t">English Buddy</div><div class="slogo-s">AI 영어 음성 대화</div></div>
+    <div class="susers">
+      <div class="slbl">대화 상대</div>
+      <button class="su su-yj" id="sYj" onclick="switchUser('yunjae')"><span class="su-av">🏊</span><div><div class="su-name">윤재</div><div class="su-gyj">중1 • Jake</div></div></button>
+      <button class="su su-yg" id="sYg" onclick="switchUser('yungeon')"><span class="su-av">🏅</span><div><div class="su-name">윤건</div><div class="su-gyg">초5 • Sunny</div></div></button>
     </div>
-    <div class="sidebar-users">
-      <div class="sidebar-lbl">대화 상대 선택</div>
-      <button class="suser suser-yj" id="sYj" onclick="switchUser('yunjae')">
-        <span class="suser-av">🏊</span>
-        <div><div class="suser-name">윤재</div><div class="suser-grade-yj">중1 • Jake</div></div>
-      </button>
-      <button class="suser suser-yg" id="sYg" onclick="switchUser('yungeon')">
-        <span class="suser-av">🏅</span>
-        <div><div class="suser-name">윤건</div><div class="suser-grade-yg">초5 • Sunny</div></div>
-      </button>
+    <div class="sbot">
+      <div class="sinfo">AI가 주제를 골라 대화를 이끌어요.<br>🎤 버튼 누르고 영어로 말해보세요!</div>
+      <div class="ksrow"><span class="kslbl">🇰🇷 한국어 먼저</span><div class="tsw" id="kSwS" onclick="toggleKor()"><div class="tsl"></div></div></div>
+      <button class="bkd" onclick="goHome()">← 홈으로</button>
     </div>
-    <div class="sidebar-info">
-      <p>AI가 주제를 골라 대화를 이끌어요.<br>🎤 버튼 누르고 영어로 말해보세요!</p>
-      <div style="margin-top:12px;display:flex;align-items:center;gap:8px">
-        <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4)">🇰🇷 한국어 먼저</span>
-        <div class="tsw" id="korSw" onclick="toggleKor()"><div class="tsl"></div></div>
-      </div>
-    </div>
-    <button class="back-desktop" onclick="goHome()">← 홈으로</button>
   </div>
-
-  <!-- 채팅 메인 -->
-  <div class="chat-main">
-    <div class="c-header">
+  <div class="cmain">
+    <div class="chdr">
       <button class="back" onclick="goHome()">←</button>
-      <div class="h-av" id="hAv"></div>
-      <div>
-        <div class="h-name" id="hName"></div>
-        <div class="h-status" id="hStatus"></div>
-      </div>
-      <div class="h-badge" id="hBadge"></div>
+      <div class="hav" id="hAv"></div>
+      <div><div class="hname" id="hName"></div><div class="hstat" id="hStat"></div></div>
+      <div class="hbadge" id="hBadge"></div>
     </div>
-
     <div class="msgs" id="msgs">
-      <div class="empty" id="empty">
-        <div style="font-size:44px;margin-bottom:12px" id="emptyEmoji">🤖</div>
-        <div id="emptyTxt">선생님이 오늘의 주제를 고르는 중이에요...</div>
-      </div>
+      <div class="empty" id="empty"><div style="font-size:44px;margin-bottom:12px" id="eEmoji">🤖</div><div id="eTxt">선생님이 오늘의 주제를 고르는 중이에요...</div></div>
     </div>
-
-    <div class="voice-panel">
-      <!-- 모바일 한국어 토글 -->
-      <div class="kor-wrap" id="korWrapMobile">
-        <span class="kor-lbl">🇰🇷 한국어</span>
-        <div class="tsw" id="korSwMobile" onclick="toggleKor()"><div class="tsl"></div></div>
-      </div>
-      <button class="vbtn" id="vBtn" onclick="toggleListen()">
-        <div class="ripple"></div>
-        <span id="vIcon">🎤</span>
-      </button>
-      <div class="v-info">
-        <div class="v-status" id="vStatus">버튼을 누르고 말해보세요</div>
-        <div class="v-hint" id="vHint">말이 끝나면 자동으로 AI가 답해요</div>
-      </div>
+    <div class="vpanel">
+      <div class="kwrap"><span class="klbl">🇰🇷 한국어</span><div class="tsw" id="kSwM" onclick="toggleKor()"><div class="tsl"></div></div></div>
+      <button class="vbtn vbyj" id="vBtn" onclick="toggleListen()"><div class="ripple"></div><span id="vIcon">🎤</span></button>
+      <div class="vinfo"><div class="vstat" id="vStat">버튼을 누르고 말해보세요</div><div class="vhint" id="vHint">말이 끝나면 자동으로 AI가 답해요</div></div>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════
-// 🔑 여기에 API 키를 넣어주세요!
-const API_KEY = "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";
-// ══════════════════════════════════════════════
-
-const PROFILES = {
-  yunjae: {
-    name:'윤재', emoji:'🏊', grade:'중1 • 수영선수', aiName:'Jake', aiEmoji:'🤙',
-    theme:'th-yj', avBg:'linear-gradient(135deg,rgba(0,180,255,.2),rgba(0,100,255,.2))',
-    avBorder:'rgba(0,180,255,.3)', statusColor:'#40c8ff',
-    badgeBg:'rgba(0,180,255,.1)', badgeColor:'#40c8ff', badgeBorder:'rgba(0,180,255,.2)',
-    vbClass:'vb-yj', userBub:'bub-yj', fixClass:'fix-yj',
-    dotColor:'rgba(0,200,255,.65)', ttsPitch:1.0, ttsRate:0.92,
-    systemPrompt:`You are "Jake", a cool English conversation buddy for Yunjae (윤재), a Korean 13-year-old who:
-- Lived in Indonesia for 4 years at an international school — his English is fluent
-- Is a competitive swimmer who trains hard
-- Just moved back to Korea and misses Indonesia
-
-THIS IS VOICE: Reply in 2-4 natural spoken sentences max. No lists, no markdown. End with 1 question.
-
-STYLE: Cool older friend. Rotate topics: swimming competitions, Indonesia vs Korea, gaming, school life, K-pop vs western music, travel dreams, food, future goals, funny hypotheticals. React genuinely.
-
-CORRECTION: Reply to content first. Then casually: "Quick tip — say [correct] instead of [wrong]." Max 1 tip.
-
-KOREAN MODE: If message has [KOREAN] prefix — say "In English: '[translation]' — try that!" then continue.`
+const P={
+  yunjae:{
+    name:'윤재',emoji:'🏊',grade:'중1·수영선수',aiName:'Jake',aiEmoji:'🤙',
+    theme:'th-yj',avBg:'linear-gradient(135deg,rgba(0,180,255,.2),rgba(0,100,255,.2))',avBd:'rgba(0,180,255,.3)',
+    sc:'#40c8ff',bbg:'rgba(0,180,255,.1)',bc:'#40c8ff',bbd:'rgba(0,180,255,.2)',
+    vbc:'vbyj',ub:'byj',fc:'fyj',dc:'rgba(0,200,255,.65)',tp:1.0,tr:0.92,
+    sp:`You are "Jake", a cool English conversation buddy for Yunjae (윤재), Korean 13-year-old.
+Background: 4 years international school in Indonesia (fluent English), competitive swimmer, just returned to Korea.
+VOICE RULES: 2-4 sentences max. Natural spoken English. No lists/markdown. End with 1 question.
+STYLE: Cool older friend. Topics to rotate: swimming competitions, Indonesia vs Korea life, gaming, school, music, travel dreams, food, future, funny hypotheticals. React: "That's wild!", "No way!", "Honestly though,"
+CORRECTION: Respond to content first. Then: "Quick tip — say [correct] instead of [wrong]." One tip max.
+KOREAN MODE: If [KOREAN] in message — "In English: '[translation]' — try that!" then continue in English.`
   },
-  yungeon: {
-    name:'윤건', emoji:'🏅', grade:'초5 • 수영선수', aiName:'Sunny', aiEmoji:'☀️',
-    theme:'th-yg', avBg:'linear-gradient(135deg,rgba(180,80,255,.2),rgba(100,0,255,.2))',
-    avBorder:'rgba(180,80,255,.3)', statusColor:'#c87fff',
-    badgeBg:'rgba(180,80,255,.1)', badgeColor:'#c87fff', badgeBorder:'rgba(180,80,255,.2)',
-    vbClass:'vb-yg', userBub:'bub-yg', fixClass:'fix-yg',
-    dotColor:'rgba(180,100,255,.7)', ttsPitch:1.15, ttsRate:0.88,
-    systemPrompt:`You are "Sunny", the friendliest English buddy for Yungeon (윤건), a Korean 11-year-old who:
-- Lived in Indonesia for 4 years at an international school — good English!
-- Is a competitive swimmer with medals
-- Just moved back to Korea from Indonesia
-
-THIS IS VOICE: 2-3 sentences max. Warm spoken English. No lists. End with 1 easy question.
-
-STYLE: Awesome older sibling. Topics: swimming races, Indonesia memories, animals, food, Minecraft/Roblox, superheroes, funny facts, school, cartoons. React big: "Oh wow!", "That's SO cool!"
-
-CORRECTION: Warm response first. Then: "English tip — say [correct]!" Brief and kind.
-
-KOREAN MODE: If message has [KOREAN] prefix — say "In English: '[translation]' — try it!" then continue warmly.`
+  yungeon:{
+    name:'윤건',emoji:'🏅',grade:'초5·수영선수',aiName:'Sunny',aiEmoji:'☀️',
+    theme:'th-yg',avBg:'linear-gradient(135deg,rgba(180,80,255,.2),rgba(100,0,255,.2))',avBd:'rgba(180,80,255,.3)',
+    sc:'#c87fff',bbg:'rgba(180,80,255,.1)',bc:'#c87fff',bbd:'rgba(180,80,255,.2)',
+    vbc:'vbyg',ub:'byg',fc:'fyg',dc:'rgba(180,100,255,.7)',tp:1.15,tr:0.88,
+    sp:`You are "Sunny", a warm English buddy for Yungeon (윤건), Korean 11-year-old.
+Background: 4 years international school in Indonesia (good English), competitive swimmer with medals, just returned to Korea.
+VOICE RULES: 2-3 sentences max. Warm spoken English. No lists. End with 1 easy question.
+STYLE: Awesome older sibling. Topics: swimming medals, Indonesia memories, animals, food, Minecraft/Roblox, superheroes, funny facts, school, cartoons. React big: "Oh wow!", "That's SO cool!", "No way, really?!"
+CORRECTION: Warm response first. Then: "English tip — say [correct]!" Super brief and kind.
+KOREAN MODE: If [KOREAN] in message — "In English: '[translation]' — try it!" then continue warmly.`
   }
 };
 
-let user=null, msgs=[], loading=false, listening=false, speaking=false;
-let recognition=null, korOn=false;
-let voices=[];
-const synth=window.speechSynthesis;
+let u=null,ms=[],load=false,lstn=false,spk=false,rec=null,kor=false,vox=[];
+const sy=window.speechSynthesis,SK='eb_key_v3';
+function lv(){vox=sy.getVoices();}lv();
+if(sy.onvoiceschanged!==undefined)sy.onvoiceschanged=lv;
 
-function loadVoices(){voices=synth.getVoices();}
-loadVoices();
-if(synth.onvoiceschanged!==undefined) synth.onvoiceschanged=loadVoices;
+/* KEY */
+function getK(){return localStorage.getItem(SK)||'';}
+function saveKey(){
+  const v=document.getElementById('apiInput').value.trim();
+  const e=document.getElementById('apiErr');
+  if(!v.startsWith('sk-ant-')){e.style.display='block';return;}
+  e.style.display='none';localStorage.setItem(SK,v);show('home');
+}
+function changeKey(){document.getElementById('apiInput').value='';document.getElementById('apiErr').style.display='none';show('apikey');}
+function toggleEye(){const i=document.getElementById('apiInput');i.type=i.type==='password'?'text':'password';}
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('apiInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveKey();});
+  getK()?show('home'):show('apikey');
+});
 
-// ── NAV ──────────────────────────────────────────
-function selectUser(id){ user=PROFILES[id]; msgs=[]; setupUI(); show('chat'); startConvo(); }
-function switchUser(id){ synth.cancel(); stopListen(); user=PROFILES[id]; msgs=[]; setupUI(); startConvo(); }
-function goHome(){ stopListen(); synth.cancel(); show('home'); user=null; msgs=[]; }
-function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('hidden',s.id!==id)); }
+/* NAV */
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('hidden',s.id!==id));}
+function selectUser(id){u=P[id];ms=[];setupUI();show('chat');startConvo();}
+function switchUser(id){sy.cancel();stopL();u=P[id];ms=[];setupUI();startConvo();}
+function goHome(){stopL();sy.cancel();show('home');u=null;ms=[];}
 
 function setupUI(){
-  const u=user;
   document.getElementById('chat').className='screen '+u.theme;
-  document.getElementById('hAv').textContent=u.aiEmoji;
-  document.getElementById('hAv').style.cssText=`width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:${u.avBg};border:1px solid ${u.avBorder}`;
+  const av=document.getElementById('hAv');
+  av.textContent=u.aiEmoji;
+  av.style.cssText=`width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:${u.avBg};border:1px solid ${u.avBd}`;
   document.getElementById('hName').textContent=u.aiName;
-  document.getElementById('hStatus').textContent='online ●';
-  document.getElementById('hStatus').style.color=u.statusColor;
-  document.getElementById('hBadge').textContent=u.grade;
-  document.getElementById('hBadge').style.cssText=`margin-left:auto;border-radius:18px;padding:5px 12px;font-size:11px;font-weight:800;flex-shrink:0;background:${u.badgeBg};color:${u.badgeColor};border:1px solid ${u.badgeBorder}`;
-  document.getElementById('vBtn').className='vbtn '+u.vbClass;
-  document.getElementById('emptyEmoji').textContent=u.aiEmoji;
-  document.getElementById('emptyTxt').textContent=`${u.aiName}가 오늘의 주제를 고르는 중이에요...`;
+  const hs=document.getElementById('hStat');hs.textContent='online ●';hs.style.color=u.sc;
+  const hb=document.getElementById('hBadge');
+  hb.textContent=u.grade;hb.style.cssText=`margin-left:auto;border-radius:18px;padding:5px 12px;font-size:11px;font-weight:800;flex-shrink:0;background:${u.bbg};color:${u.bc};border:1px solid ${u.bbd}`;
+  document.getElementById('vBtn').className='vbtn '+u.vbc;
   document.getElementById('msgs').innerHTML=`<div class="empty" id="empty"><div style="font-size:44px;margin-bottom:12px">${u.aiEmoji}</div><div>${u.aiName}가 오늘의 주제를 고르는 중이에요...</div></div>`;
-  // sidebar active
-  document.getElementById('sYj').classList.toggle('active', u===PROFILES.yunjae);
-  document.getElementById('sYg').classList.toggle('active', u===PROFILES.yungeon);
-  setStatus('준비 중...'); setHint('잠시만 기다려주세요'); setIcon('⏳');
-  korOn=false; updateKorToggle();
+  document.getElementById('sYj').classList.toggle('active',u===P.yunjae);
+  document.getElementById('sYg').classList.toggle('active',u===P.yungeon);
+  ss('준비 중...');sh('잠시만 기다려주세요');si('⏳');
+  kor=false;updKor();
 }
 
-// ── CONVO ────────────────────────────────────────
+/* API */
 async function startConvo(){
-  const starter=`Hi ${user.aiName}! I'm ${user.name}. I just moved back to Korea after 4 years in Indonesia. I'm a competitive swimmer. Let's chat in English — pick an interesting topic and start!`;
-  await callAI([{role:'user',content:starter}],true);
+  await callAI([{role:'user',content:`Hi ${u.aiName}! I'm ${u.name}. I just moved back to Korea after 4 years in Indonesia. I'm a competitive swimmer. Let's chat in English — pick a fun topic and start!`}],true);
 }
-
-async function callAI(apiMsgs,isFirst){
-  if(!API_KEY||API_KEY==='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'){
-    removeEmpty(); addAIBubble('⚠️ API 키가 설정되지 않았어요! 파일을 열고 YOUR_API_KEY_HERE 부분에 API 키를 넣어주세요.');
-    return;
-  }
-  loading=true; showTyping(true);
-  setStatus('AI가 생각 중...'); setIcon('⏳');
-  document.getElementById('hStatus').textContent='생각 중...';
-
+async function callAI(am,isFirst){
+  const key=getK();
+  if(!key){addAI('🔑 API 키가 없어요! 홈에서 API 키를 설정해주세요.');return;}
+  load=true;showT(true);ss('AI가 생각 중...');si('⏳');
+  document.getElementById('hStat').textContent='생각 중...';
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:user.systemPrompt,messages:apiMsgs})
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:u.sp,messages:am})
     });
-    const data=await res.json();
-    if(data.error){throw new Error(data.error.message);}
-    const reply=(data.content||[]).map(b=>b.text||'').join('')||'Can you try again?';
-    showTyping(false); removeEmpty(); addAIBubble(reply);
-    if(isFirst) msgs=[{role:'user',content:apiMsgs[0].content},{role:'assistant',content:reply}];
-    else msgs.push({role:'assistant',content:reply});
-    speak(reply);
+    const d=await r.json();
+    if(d.error)throw new Error(d.error.message);
+    const rep=(d.content||[]).map(b=>b.text||'').join('')||'Can you try again?';
+    showT(false);remE();addAI(rep);
+    if(isFirst)ms=[{role:'user',content:am[0].content},{role:'assistant',content:rep}];
+    else ms.push({role:'assistant',content:rep});
+    speak(rep);
   }catch(e){
-    showTyping(false); removeEmpty();
-    addAIBubble(`오류가 발생했어요: ${e.message}\nAPI 키를 확인해주세요!`);
-    loading=false; setStatus('오류 발생'); setIcon('🎤');
-    document.getElementById('hStatus').textContent='오류';
+    showT(false);remE();
+    addAI(e.message&&e.message.toLowerCase().includes('invalid')?'❌ API 키가 올바르지 않아요. 홈에서 키를 다시 확인해주세요.':`오류: ${e.message}`);
+    load=false;ss('오류 발생');si('🎤');
+    document.getElementById('hStat').textContent='오류';
   }
 }
 
-// ── STT ──────────────────────────────────────────
+/* STT */
 function toggleListen(){
-  if(loading||speaking) return;
-  if(listening){stopListen();return;}
-  synth.cancel();
+  if(load||spk)return;
+  if(lstn){stopL();return;}
+  sy.cancel();
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert('Chrome 또는 Safari를 사용해주세요!');return;}
-  const r=new SR();
-  r.lang=korOn?'ko-KR':'en-US';
-  r.continuous=false; r.interimResults=true;
-  r.onstart=()=>{listening=true;setIcon('⏹️');setStatus('듣고 있어요... 말해보세요! 🎤');setHint('말이 끝나면 자동으로 전송돼요');document.getElementById('vBtn').classList.add('listening');};
+  const r=new SR();r.lang=kor?'ko-KR':'en-US';r.continuous=false;r.interimResults=true;
+  r.onstart=()=>{lstn=true;si('⏹️');ss('듣고 있어요... 말해보세요! 🎤');sh('말이 끝나면 자동으로 전송돼요');document.getElementById('vBtn').classList.add('listening');};
   r.onresult=(e)=>{
-    const txt=Array.from(e.results).map(r=>r[0].transcript).join('');
-    if(e.results[e.results.length-1].isFinal) finishListen(txt);
-    else setStatus(`"${txt}"...`);
+    const t=Array.from(e.results).map(x=>x[0].transcript).join('');
+    if(e.results[e.results.length-1].isFinal)finL(t);else ss(`"${t}"...`);
   };
-  r.onerror=(e)=>{stopListen();if(e.error==='no-speech')setStatus('소리가 안 들려요. 다시 눌러보세요');else if(e.error==='not-allowed')setStatus('마이크 권한을 허용해주세요!');else setStatus('오류. 다시 시도해보세요');setIcon('🎤');};
-  r.onend=()=>{listening=false;document.getElementById('vBtn').classList.remove('listening');if(!loading&&!speaking)setIcon('🎤');};
-  recognition=r; r.start();
+  r.onerror=(e)=>{stopL();si('🎤');
+    if(e.error==='no-speech')ss('소리가 안 들려요. 다시 눌러보세요');
+    else if(e.error==='not-allowed')ss('마이크 권한을 허용해주세요!');
+    else ss('오류. 다시 시도해보세요');
+  };
+  r.onend=()=>{lstn=false;document.getElementById('vBtn').classList.remove('listening');if(!load&&!spk)si('🎤');};
+  rec=r;r.start();
+}
+function stopL(){if(rec)try{rec.stop();}catch(e){}lstn=false;document.getElementById('vBtn').classList.remove('listening');}
+function finL(t){
+  stopL();if(!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');return;}
+  addUser(t);ms.push({role:'user',content:kor?`[KOREAN] ${t}`:t});callAI(ms,false);
 }
 
-function stopListen(){
-  if(recognition)try{recognition.stop();}catch(e){}
-  listening=false;
-  document.getElementById('vBtn').classList.remove('listening');
-}
-
-function finishListen(transcript){
-  stopListen();
-  if(!transcript.trim()){setStatus('말이 감지되지 않았어요. 다시 눌러보세요');return;}
-  const apiText=korOn?`[KOREAN] ${transcript}`:transcript;
-  addUserBubble(transcript);
-  msgs.push({role:'user',content:apiText});
-  callAI(msgs,false);
-}
-
-// ── TTS ──────────────────────────────────────────
+/* TTS */
 function speak(text){
-  synth.cancel();
-  const clean=text.replace(/💡 Quick tip[:\-—]?\s*/gi,'Quick tip. ').replace(/✨ English tip[:\-—]?\s*/gi,'English tip. ').replace(/[*_`⚠️]/g,'');
+  sy.cancel();
+  const clean=text.replace(/Quick tip[:\-—]\s*/gi,'Quick tip. ').replace(/English tip[:\-—]\s*/gi,'English tip. ').replace(/[*_`🔑❌]/g,'');
   const utt=new SpeechSynthesisUtterance(clean);
-  const enV=voices.filter(v=>v.lang.startsWith('en'));
-  const pref=enV.find(v=>v.name.includes('Samantha')||v.name.includes('Karen')||v.name.includes('Google US English')||v.name.includes('Daniel'))||enV[0];
-  if(pref) utt.voice=pref;
-  utt.lang='en-US'; utt.pitch=user.ttsPitch; utt.rate=user.ttsRate; utt.volume=1;
-  utt.onstart=()=>{speaking=true;loading=false;document.getElementById('vBtn').classList.add('speaking');setIcon('🔊');setStatus(`${user.aiName}가 말하는 중... 🔊`);setHint('말이 끝나면 🎤 버튼을 눌러 대답하세요');document.getElementById('hStatus').textContent='말하는 중 🔊';};
-  utt.onend=()=>{speaking=false;document.getElementById('vBtn').classList.remove('speaking');setIcon('🎤');setStatus('버튼을 누르고 말해보세요');setHint('말이 끝나면 자동으로 AI가 답해요');document.getElementById('hStatus').textContent='online ●';};
-  utt.onerror=()=>{speaking=false;loading=false;document.getElementById('vBtn').classList.remove('speaking');setIcon('🎤');setStatus('버튼을 누르고 말해보세요');document.getElementById('hStatus').textContent='online ●';};
-  setTimeout(()=>synth.speak(utt),120);
-  document.getElementById('hStatus').textContent='응답 중...';
+  const ev=vox.filter(v=>v.lang.startsWith('en'));
+  const pv=ev.find(v=>v.name.includes('Samantha')||v.name.includes('Karen')||v.name.includes('Google US English')||v.name.includes('Daniel'))||ev[0];
+  if(pv)utt.voice=pv;
+  utt.lang='en-US';utt.pitch=u.tp;utt.rate=u.tr;utt.volume=1;
+  utt.onstart=()=>{spk=true;load=false;document.getElementById('vBtn').classList.add('speaking');si('🔊');ss(`${u.aiName}가 말하는 중... 🔊`);sh('끝나면 🎤 버튼을 눌러 대답하세요');document.getElementById('hStat').textContent='말하는 중 🔊';};
+  utt.onend=()=>{spk=false;document.getElementById('vBtn').classList.remove('speaking');si('🎤');ss('버튼을 누르고 말해보세요');sh('말이 끝나면 자동으로 AI가 답해요');document.getElementById('hStat').textContent='online ●';};
+  utt.onerror=()=>{spk=false;load=false;document.getElementById('vBtn').classList.remove('speaking');si('🎤');ss('버튼을 누르고 말해보세요');document.getElementById('hStat').textContent='online ●';};
+  setTimeout(()=>sy.speak(utt),120);
+  document.getElementById('hStat').textContent='응답 중...';
 }
 
-// ── KOREAN TOGGLE ────────────────────────────────
-function toggleKor(){
-  korOn=!korOn; updateKorToggle();
-}
-function updateKorToggle(){
-  ['korSw','korSwMobile'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.classList.toggle('on',korOn);
-  });
-}
+/* KOR */
+function toggleKor(){kor=!kor;updKor();}
+function updKor(){['kSwS','kSwM'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('on',kor);});}
 
-// ── UI HELPERS ───────────────────────────────────
-function addAIBubble(text){
-  const corrRx=/(Quick tip —|Quick tip—|English tip —|English tip—|Quick tip:)([\s\S]*?)$/i;
-  const m=text.match(corrRx);
-  let main=text,fix=null;
+/* UI */
+function addAI(text){
+  const rx=/(Quick tip[:\-—]|English tip[:\-—])([\s\S]*?)$/i;
+  const m=text.match(rx);let main=text,fix=null;
   if(m){main=text.slice(0,m.index).trim();fix=m[0];}
-  const msgs=document.getElementById('msgs');
-  const row=document.createElement('div');row.className='msg-row';
+  const el=document.getElementById('msgs');
+  const row=document.createElement('div');row.className='mrow';
   const av=document.createElement('div');
-  av.style.cssText=`width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:${user.avBg};border:1px solid ${user.avBorder}`;
-  av.textContent=user.aiEmoji;
+  av.style.cssText=`width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:${u.avBg};border:1px solid ${u.avBd}`;
+  av.textContent=u.aiEmoji;
   const wrap=document.createElement('div');wrap.style.maxWidth='76%';
-  const bub=document.createElement('div');bub.className='bub bub-ai';bub.textContent=main;wrap.appendChild(bub);
-  if(fix){const fb=document.createElement('div');fb.className='fix '+user.fixClass;fb.textContent=fix;wrap.appendChild(fb);}
-  row.appendChild(av);row.appendChild(wrap);
-  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+  const b=document.createElement('div');b.className='bub bai';b.textContent=main;wrap.appendChild(b);
+  if(fix){const f=document.createElement('div');f.className='fix '+u.fc;f.textContent=fix;wrap.appendChild(f);}
+  row.appendChild(av);row.appendChild(wrap);el.appendChild(row);el.scrollTop=el.scrollHeight;
 }
-
-function addUserBubble(text){
+function addUser(text){
   const el=document.getElementById('msgs');
-  const row=document.createElement('div');row.className='msg-row usr-row';
-  const bub=document.createElement('div');bub.className='bub '+user.userBub;bub.textContent=text;
-  row.appendChild(bub);el.appendChild(row);el.scrollTop=el.scrollHeight;
+  const row=document.createElement('div');row.className='mrow urow';
+  const b=document.createElement('div');b.className='bub '+u.ub;b.textContent=text;
+  row.appendChild(b);el.appendChild(row);el.scrollTop=el.scrollHeight;
 }
-
-let typingEl=null;
-function showTyping(on){
+let tEl=null;
+function showT(on){
   const el=document.getElementById('msgs');
-  if(on&&!typingEl){
-    typingEl=document.createElement('div');typingEl.className='typing-row';
-    const dc=user?.dotColor||'rgba(255,255,255,.5)';
-    typingEl.innerHTML=`<div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:${user.avBg};border:1px solid ${user.avBorder}">${user.aiEmoji}</div><div class="t-bub"><div class="dot" style="background:${dc}"></div><div class="dot" style="background:${dc};animation-delay:.2s"></div><div class="dot" style="background:${dc};animation-delay:.4s"></div></div>`;
-    el.appendChild(typingEl);el.scrollTop=el.scrollHeight;
-  }else if(!on&&typingEl){typingEl.remove();typingEl=null;}
+  if(on&&!tEl){
+    tEl=document.createElement('div');tEl.className='trow';
+    tEl.innerHTML=`<div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:${u.avBg};border:1px solid ${u.avBd}">${u.aiEmoji}</div><div class="tbub"><div class="dot" style="background:${u.dc}"></div><div class="dot" style="background:${u.dc};animation-delay:.2s"></div><div class="dot" style="background:${u.dc};animation-delay:.4s"></div></div>`;
+    el.appendChild(tEl);el.scrollTop=el.scrollHeight;
+  }else if(!on&&tEl){tEl.remove();tEl=null;}
 }
+function remE(){const e=document.getElementById('empty');if(e)e.remove();}
+function ss(t){document.getElementById('vStat').textContent=t;}
+function sh(t){document.getElementById('vHint').textContent=t;}
+function si(i){document.getElementById('vIcon').textContent=i;}
 
-function removeEmpty(){const e=document.getElementById('empty');if(e)e.remove();}
-function setStatus(t){document.getElementById('vStatus').textContent=t;}
-function setHint(t){document.getElementById('vHint').textContent=t;}
-function setIcon(i){document.getElementById('vIcon').textContent=i;}
-
-// 스페이스바 = 마이크 토글 (데스크탑)
 document.addEventListener('keydown',e=>{
-  if(e.code==='Space'&&document.getElementById('chat')&&!document.getElementById('chat').classList.contains('hidden')){
+  if(e.code==='Space'&&!document.getElementById('chat').classList.contains('hidden')&&e.target.tagName!=='INPUT'){
     e.preventDefault();toggleListen();
   }
 });
