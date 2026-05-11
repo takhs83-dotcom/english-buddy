@@ -8,10 +8,10 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .35s,transform .35s}
-.screen.hidden{opacity:0;pointer-events:none;transform:scale(.96)}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .35s,transform .35s;overflow:hidden}
+.screen.hidden{opacity:0;pointer-events:none;transform:scale(.97)}
 .dark-bg{background:#06080f}
-.glow{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.2}
+.glow{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.18}
 .g1{width:500px;height:500px;background:#0050ff;top:-180px;left:-150px}
 .g2{width:400px;height:400px;background:#8b00ff;bottom:-100px;right:-100px}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
@@ -22,16 +22,17 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
 @keyframes sp{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes rip{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}
 @keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
 
-/* ─── API KEY SCREEN ─── */
+/* ─── API KEY ─── */
 #apikey{align-items:center;justify-content:center;padding:32px 20px;overflow-y:auto}
 .api-box{position:relative;z-index:1;width:100%;max-width:460px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:40px 36px;text-align:center;animation:fadeUp .6s ease both}
 .api-logo{font-size:52px;margin-bottom:12px;display:block;animation:float 3s ease-in-out infinite}
-.api-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:8px}
-.api-sub{color:rgba(255,255,255,.45);font-size:14px;line-height:1.65;margin-bottom:28px;font-weight:600}
+.api-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:8px}
+.api-sub{color:rgba(255,255,255,.45);font-size:14px;line-height:1.65;margin-bottom:24px;font-weight:600}
 .api-sub strong{color:rgba(255,255,255,.8)}
-.api-steps{text-align:left;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
-.api-step{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 14px}
+.api-steps{text-align:left;margin-bottom:22px;display:flex;flex-direction:column;gap:9px}
+.api-step{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 13px}
 .snum{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#0070ff);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px}
 .stxt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;font-weight:600}
 .stxt a{color:#00d4ff;text-decoration:none}
@@ -47,35 +48,43 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
 .api-note span{color:rgba(255,255,255,.45)}
 
 /* ─── HOME ─── */
-#home{align-items:center;justify-content:center;padding:32px 20px;overflow-y:auto}
-.home-inner{position:relative;z-index:1;width:100%;max-width:420px;text-align:center}
-.logo{font-size:64px;display:block;animation:float 3.5s ease-in-out infinite;margin-bottom:8px}
-.title{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#60b8ff,#fff,#d080ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{color:rgba(255,255,255,.45);font-size:13px;font-weight:700;margin-bottom:10px}
-.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:100px;padding:7px 18px;margin-bottom:34px}
+#home{align-items:center;justify-content:center;padding:28px 20px;overflow-y:auto}
+.home-inner{position:relative;z-index:1;width:100%;max-width:440px;text-align:center}
+.logo{font-size:60px;display:block;animation:float 3.5s ease-in-out infinite;margin-bottom:6px}
+.title{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:5px;background:linear-gradient(135deg,#60b8ff,#fff,#d080ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:rgba(255,255,255,.4);font-size:13px;font-weight:700;margin-bottom:8px}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:100px;padding:6px 16px;margin-bottom:28px}
 .bdot{width:7px;height:7px;border-radius:50%;background:#00e676;animation:pulse 1.8s ease-in-out infinite}
 .badge span{color:#00d4ff;font-size:12px;font-weight:700}
-.who{color:rgba(255,255,255,.3);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.profiles{display:flex;flex-direction:column;gap:14px}
-.pcard{border-radius:22px;padding:22px 24px;cursor:pointer;border:none;text-align:left;width:100%;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;font-family:'Nunito',sans-serif}
+.who{color:rgba(255,255,255,.3);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.profiles{display:flex;flex-direction:column;gap:13px}
+.pcard{border-radius:22px;padding:20px 22px;cursor:pointer;border:none;text-align:left;width:100%;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;font-family:'Nunito',sans-serif}
 .pcard:hover{transform:translateY(-4px)}.pcard:active{transform:scale(.98)}
 .shine{position:absolute;inset:0;background:radial-gradient(circle at 25% 25%,rgba(255,255,255,.07),transparent 65%);pointer-events:none}
 .yj{background:linear-gradient(145deg,#0a1f35,#0c3050);border:1px solid rgba(0,212,255,.22);box-shadow:0 8px 36px rgba(0,120,255,.15)}
 .yj:hover{box-shadow:0 20px 60px rgba(0,180,255,.28)}
 .yg{background:linear-gradient(145deg,#160830,#260d50);border:1px solid rgba(160,80,255,.22);box-shadow:0 8px 36px rgba(100,0,255,.12)}
 .yg:hover{box-shadow:0 20px 60px rgba(150,50,255,.26)}
-.crow{display:flex;align-items:center;gap:14px;margin-bottom:12px}
-.av{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.crow{display:flex;align-items:center;gap:13px;margin-bottom:10px}
+.av{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
 .av-yj{background:rgba(0,180,255,.15);border:1px solid rgba(0,180,255,.25)}
 .av-yg{background:rgba(160,80,255,.15);border:1px solid rgba(160,80,255,.25)}
-.cname{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff}
+.cname{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff}
 .cg-yj{font-size:12px;font-weight:700;color:#40c8ff;margin-top:2px}
 .cg-yg{font-size:12px;font-weight:700;color:#c87fff;margin-top:2px}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{border-radius:100px;padding:4px 11px;font-size:11px;font-weight:700}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700}
 .ty{background:rgba(0,212,255,.12);color:#40c8ff;border:1px solid rgba(0,212,255,.2)}
 .tg{background:rgba(160,80,255,.12);color:#c87fff;border:1px solid rgba(160,80,255,.2)}
-.hfoot{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+
+/* stats bar on home card */
+.cstats{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
+.cstat{flex:1;text-align:center}
+.cstat-n{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.cstat-l{font-size:10px;font-weight:700;color:rgba(255,255,255,.35);margin-top:1px}
+.stat-yj{color:#40c8ff}.stat-yg{color:#c87fff}
+
+.hfoot{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
 .ftxt{color:rgba(255,255,255,.2);font-size:11px;font-weight:600}
 .chkey{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
 .chkey:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
@@ -84,36 +93,38 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
 #chat{flex-direction:column}
 .th-yj{background:linear-gradient(160deg,#050e1a,#091c30)}
 .th-yg{background:linear-gradient(160deg,#0d0520,#1a0835)}
-.chdr{display:flex;align-items:center;gap:12px;padding:14px 18px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px)}
-.back{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;cursor:pointer;padding:7px 13px;border-radius:11px;font-family:inherit;line-height:1}
-.hav{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
-.hname{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff}
+.chdr{display:flex;align-items:center;gap:12px;padding:13px 16px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px)}
+.back{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;cursor:pointer;padding:7px 12px;border-radius:11px;font-family:inherit;line-height:1}
+.hav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.hname{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#fff}
 .hstat{font-size:11px;font-weight:700;margin-top:1px}
-.hbadge{margin-left:auto;border-radius:18px;padding:5px 12px;font-size:11px;font-weight:800;flex-shrink:0}
-.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.hbadge{margin-left:auto;border-radius:18px;padding:4px 11px;font-size:11px;font-weight:800;flex-shrink:0}
+.end-btn{background:rgba(255,100,100,.12);border:1px solid rgba(255,100,100,.25);border-radius:10px;padding:6px 12px;color:#ff8080;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;flex-shrink:0;margin-left:8px}
+.end-btn:hover{background:rgba(255,100,100,.22)}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:11px}
 .msgs::-webkit-scrollbar{width:3px}
 .msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 .mrow{display:flex;align-items:flex-end;gap:8px;animation:msgIn .28s ease}
 .urow{flex-direction:row-reverse}
-.bub{max-width:76%;padding:12px 16px;font-size:14px;line-height:1.65;font-weight:600;white-space:pre-wrap}
+.bub{max-width:78%;padding:11px 15px;font-size:14px;line-height:1.65;font-weight:600;white-space:pre-wrap}
 .bai{border-radius:18px 18px 18px 3px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff}
 .byj{border-radius:18px 18px 3px 18px;background:linear-gradient(135deg,#0080c8,#004a8c);color:#fff}
 .byg{border-radius:18px 18px 3px 18px;background:linear-gradient(135deg,#7b2ff7,#4a00b4);color:#fff}
-.fix{margin-top:6px;padding:8px 13px;font-size:12px;font-weight:700}
+.fix{margin-top:6px;padding:8px 12px;font-size:12px;font-weight:700;border-radius:0 0 8px 8px}
 .fyj{background:rgba(0,200,255,.08);border-left:3px solid #00d4ff;color:#70deff}
 .fyg{background:rgba(180,80,255,.08);border-left:3px solid #c87fff;color:#dba8ff}
 .trow{display:flex;align-items:flex-end;gap:8px}
-.tbub{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:18px 18px 18px 3px;padding:14px 16px;display:flex;gap:5px;align-items:center}
+.tbub{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:18px 18px 18px 3px;padding:13px 16px;display:flex;gap:5px;align-items:center}
 .dot{width:7px;height:7px;border-radius:50%;animation:td 1.2s ease-in-out infinite}
-.vpanel{flex-shrink:0;padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px);display:flex;align-items:center;gap:20px}
-.kwrap{display:flex;flex-direction:column;align-items:center;gap:4px}
-.klbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
-.tsw{position:relative;width:40px;height:22px;cursor:pointer}
-.tsl{position:absolute;inset:0;border-radius:22px;background:rgba(255,255,255,.15);transition:.3s}
-.tsl:before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.3s}
+.vpanel{flex-shrink:0;padding:14px 18px;border-top:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.2);backdrop-filter:blur(20px);display:flex;align-items:center;gap:18px}
+.kwrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.klbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.4)}
+.tsw{position:relative;width:38px;height:21px;cursor:pointer}
+.tsl{position:absolute;inset:0;border-radius:21px;background:rgba(255,255,255,.15);transition:.3s}
+.tsl:before{content:'';position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.3s}
 .tsw.on .tsl{background:rgba(0,212,255,.6)}
-.tsw.on .tsl:before{transform:translateX(18px)}
-.vbtn{width:72px;height:72px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .15s;flex-shrink:0;position:relative}
+.tsw.on .tsl:before{transform:translateX(17px)}
+.vbtn{width:68px;height:68px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:26px;transition:transform .15s;flex-shrink:0;position:relative}
 .vbtn:active{transform:scale(.92)}
 .vbtn.listening{animation:vp 1s ease-in-out infinite}
 .vbtn.speaking{animation:sp .5s ease-in-out infinite}
@@ -122,67 +133,90 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
 .vbyj{background:linear-gradient(135deg,#00d4ff,#0070ff);box-shadow:0 6px 28px rgba(0,180,255,.4)}
 .vbyg{background:linear-gradient(135deg,#c87fff,#7b2fff);box-shadow:0 6px 28px rgba(140,50,255,.4)}
 .vinfo{flex:1}
-.vstat{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
-.vhint{font-size:12px;color:rgba(255,255,255,.4);font-weight:600}
+.vstat{font-size:14px;font-weight:800;color:#fff;margin-bottom:3px}
+.vhint{font-size:11px;color:rgba(255,255,255,.4);font-weight:600}
 .empty{text-align:center;color:rgba(255,255,255,.25);margin:auto;font-size:14px;font-weight:600;padding:40px}
+
+/* ─── SUMMARY SCREEN ─── */
+#summary{align-items:center;justify-content:center;padding:24px 20px;overflow-y:auto}
+.sum-box{position:relative;z-index:1;width:100%;max-width:480px;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both}
+.sum-header{text-align:center;margin-bottom:24px}
+.sum-emoji{font-size:56px;display:block;margin-bottom:8px}
+.sum-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:4px}
+.sum-sub{color:rgba(255,255,255,.4);font-size:13px;font-weight:600}
+.sum-topic{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.sum-topic-lbl{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px}
+.sum-topic-val{font-size:15px;font-weight:700;color:#fff}
+
+.sum-section{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:12px}
+.sum-sec-title{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sum-item{padding:9px 12px;border-radius:10px;font-size:13px;font-weight:600;line-height:1.5;margin-bottom:6px}
+.sum-item:last-child{margin-bottom:0}
+.fix-item{background:rgba(255,150,0,.08);border-left:3px solid #ffaa00;color:#ffd080}
+.good-item{background:rgba(0,230,100,.08);border-left:3px solid #00e676;color:#80ffb0}
+.sum-empty{color:rgba(255,255,255,.3);font-size:13px;font-weight:600;text-align:center;padding:8px}
+
+.sum-stats{display:flex;gap:10px;margin-bottom:16px}
+.sum-stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;text-align:center}
+.sum-stat-n{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:2px}
+.sum-stat-l{font-size:11px;font-weight:700;color:rgba(255,255,255,.35)}
+
+.sum-btns{display:flex;gap:10px}
+.sum-btn-cont{flex:1;border-radius:14px;padding:14px;border:none;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:opacity .2s,transform .15s}
+.sum-btn-cont:hover{opacity:.9;transform:translateY(-1px)}
+.sum-btn-home{flex:1;border-radius:14px;padding:14px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
+.sum-btn-home:hover{background:rgba(255,255,255,.1)}
 
 /* ─── DESKTOP ─── */
 @media(min-width:768px){
-  #home{padding:60px 40px}
+  #home{padding:50px 40px}
   .home-inner{max-width:860px}
   .profiles{flex-direction:row;justify-content:center}
-  .pcard{width:380px}
-  .title{font-size:48px}
+  .pcard{width:390px}
+  .title{font-size:46px}
   #chat{flex-direction:row}
-  .cside{width:260px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
-  .cmain{flex:1;display:flex;flex-direction:column}
-  .slogo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.07)}
-  .slogo-t{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff}
+  .cside{width:250px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
+  .cmain{flex:1;display:flex;flex-direction:column;overflow:hidden}
+  .slogo{padding:22px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .slogo-t{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff}
   .slogo-s{font-size:11px;color:rgba(255,255,255,.35);font-weight:600;margin-top:3px}
-  .susers{padding:16px;display:flex;flex-direction:column;gap:8px}
-  .slbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
-  .su{border-radius:14px;padding:12px 14px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;text-align:left;transition:all .2s;display:flex;align-items:center;gap:10px;width:100%}
+  .susers{padding:14px;display:flex;flex-direction:column;gap:7px}
+  .slbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:3px}
+  .su{border-radius:13px;padding:11px 13px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;text-align:left;transition:all .2s;display:flex;align-items:center;gap:9px;width:100%}
   .su-yj{background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.15)}
   .su-yj:hover,.su-yj.active{background:rgba(0,180,255,.18);border-color:rgba(0,180,255,.35)}
   .su-yg{background:rgba(150,50,255,.08);border:1px solid rgba(150,50,255,.15)}
   .su-yg:hover,.su-yg.active{background:rgba(150,50,255,.18);border-color:rgba(150,50,255,.35)}
-  .su-av{font-size:22px}
-  .su-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff}
+  .su-av{font-size:20px}
+  .su-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff}
   .su-gyj{font-size:11px;font-weight:600;color:#40c8ff}
   .su-gyg{font-size:11px;font-weight:600;color:#c87fff}
-  .sbot{padding:16px;margin-top:auto;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px}
+  .sbot{padding:14px;margin-top:auto;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:9px}
   .sinfo{font-size:12px;color:rgba(255,255,255,.35);font-weight:600;line-height:1.6}
   .ksrow{display:flex;align-items:center;gap:8px}
   .kslbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
-  .bkd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;text-align:center}
+  .bkd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:10px;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;text-align:center}
   .bkd:hover{background:rgba(255,255,255,.1);color:#fff}
   .chdr .back{display:none}
   .vpanel .kwrap{display:none}
+  #summary{padding:40px}
+  .sum-box{max-width:560px}
 }
 </style>
 </head>
 <body>
 
-<!-- API KEY -->
+<!-- ══ API KEY ══ -->
 <div id="apikey" class="screen dark-bg">
   <div class="glow g1"></div><div class="glow g2"></div>
   <div class="api-box">
     <span class="api-logo">🔑</span>
     <h1 class="api-title">처음 한 번만 설정해요</h1>
-    <p class="api-sub">Anthropic API 키를 입력하면<br><strong>이 브라우저에만 저장</strong>되고 외부로 전송되지 않아요.</p>
+    <p class="api-sub">Anthropic API 키를 입력하면<br><strong>이 브라우저에만 저장</strong>돼요.</p>
     <div class="api-steps">
-      <div class="api-step">
-        <div class="snum">1</div>
-        <div class="stxt"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 로그인</div>
-      </div>
-      <div class="api-step">
-        <div class="snum">2</div>
-        <div class="stxt">왼쪽 메뉴 <strong style="color:#fff">API Keys</strong> 클릭</div>
-      </div>
-      <div class="api-step">
-        <div class="snum">3</div>
-        <div class="stxt"><strong style="color:#fff">Create Key</strong> 후 아래에 붙여넣기</div>
-      </div>
+      <div class="api-step"><div class="snum">1</div><div class="stxt"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 로그인</div></div>
+      <div class="api-step"><div class="snum">2</div><div class="stxt">왼쪽 메뉴 <strong style="color:#fff">API Keys</strong> 클릭</div></div>
+      <div class="api-step"><div class="snum">3</div><div class="stxt"><strong style="color:#fff">Create Key</strong> 후 아래 붙여넣기</div></div>
     </div>
     <div class="api-wrap">
       <input class="api-input" type="password" id="apiInput" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false">
@@ -194,53 +228,64 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
   </div>
 </div>
 
-<!-- HOME -->
+<!-- ══ HOME ══ -->
 <div id="home" class="screen dark-bg hidden">
   <div class="glow g1"></div><div class="glow g2"></div>
   <div class="home-inner">
     <span class="logo">🌏</span>
     <h1 class="title">English Buddy</h1>
-    <p class="sub">인도네시아에서 키운 영어, 목소리로 지켜요</p>
-    <div class="badge"><div class="bdot"></div><span>완전 음성 대화 • 타이핑 불필요</span></div>
+    <p class="sub">인도네시아에서 키운 영어, 함께 키워가요</p>
+    <div class="badge"><div class="bdot"></div><span>AI 영어 선생님 • 음성 대화 • 학습 기록</span></div>
     <p class="who">누구세요?</p>
     <div class="profiles">
       <button class="pcard yj" onclick="selectUser('yunjae')">
         <div class="shine"></div>
         <div class="crow"><div class="av av-yj">🏊</div>
-          <div style="flex:1"><div class="cname">윤재</div><div class="cg-yj">중학교 1학년 • Jake와 대화</div></div>
-          <div style="color:rgba(255,255,255,.2);font-size:22px">›</div>
+          <div style="flex:1"><div class="cname">윤재</div><div class="cg-yj">중학교 1학년 • Jake 선생님</div></div>
+          <div style="color:rgba(255,255,255,.2);font-size:20px">›</div>
         </div>
-        <div class="tags"><span class="tag ty">🌊 수영</span><span class="tag ty">🇮🇩 인도네시아</span><span class="tag ty">🎤 음성 대화</span><span class="tag ty">✍️ 문법 교정</span></div>
+        <div class="tags"><span class="tag ty">🌊 수영</span><span class="tag ty">🇮🇩 인도네시아</span><span class="tag ty">🎤 음성 대화</span><span class="tag ty">📚 학습 기록</span></div>
+        <div class="cstats" id="stats-yunjae">
+          <div class="cstat"><div class="cstat-n stat-yj" id="sn-yunjae">0</div><div class="cstat-l">대화 횟수</div></div>
+          <div class="cstat"><div class="cstat-n stat-yj" id="sm-yunjae">0</div><div class="cstat-l">연속 일수 🔥</div></div>
+          <div class="cstat"><div class="cstat-n stat-yj" id="sc-yunjae">0</div><div class="cstat-l">교정 누적</div></div>
+        </div>
       </button>
       <button class="pcard yg" onclick="selectUser('yungeon')">
         <div class="shine"></div>
         <div class="crow"><div class="av av-yg">🏅</div>
-          <div style="flex:1"><div class="cname">윤건</div><div class="cg-yg">초등학교 5학년 • Sunny와 대화</div></div>
-          <div style="color:rgba(255,255,255,.2);font-size:22px">›</div>
+          <div style="flex:1"><div class="cname">윤건</div><div class="cg-yg">초등학교 5학년 • Sunny 선생님</div></div>
+          <div style="color:rgba(255,255,255,.2);font-size:20px">›</div>
         </div>
-        <div class="tags"><span class="tag tg">🌊 수영</span><span class="tag tg">🇮🇩 인도네시아</span><span class="tag tg">🎤 음성 대화</span><span class="tag tg">🇰🇷 한국어 도움</span></div>
+        <div class="tags"><span class="tag tg">🌊 수영</span><span class="tag tg">🇮🇩 인도네시아</span><span class="tag tg">🎤 음성 대화</span><span class="tag tg">📚 학습 기록</span></div>
+        <div class="cstats" id="stats-yungeon">
+          <div class="cstat"><div class="cstat-n stat-yg" id="sn-yungeon">0</div><div class="cstat-l">대화 횟수</div></div>
+          <div class="cstat"><div class="cstat-n stat-yg" id="sm-yungeon">0</div><div class="cstat-l">연속 일수 🔥</div></div>
+          <div class="cstat"><div class="cstat-n stat-yg" id="sc-yungeon">0</div><div class="cstat-l">교정 누적</div></div>
+        </div>
       </button>
     </div>
     <div class="hfoot">
-      <span class="ftxt">🎙️ 말하면 AI가 영어로 답해줘요</span>
+      <span class="ftxt">🎙️ 말하면 AI 선생님이 영어로 대화해요</span>
       <button class="chkey" onclick="changeKey()">🔑 API 키 변경</button>
     </div>
   </div>
 </div>
 
-<!-- CHAT -->
+<!-- ══ CHAT ══ -->
 <div id="chat" class="screen hidden th-yj">
   <div class="cside">
-    <div class="slogo"><div style="font-size:28px;margin-bottom:6px">🌏</div><div class="slogo-t">English Buddy</div><div class="slogo-s">AI 영어 음성 대화</div></div>
+    <div class="slogo"><div style="font-size:26px;margin-bottom:5px">🌏</div><div class="slogo-t">English Buddy</div><div class="slogo-s">AI 영어 음성 대화</div></div>
     <div class="susers">
       <div class="slbl">대화 상대</div>
       <button class="su su-yj" id="sYj" onclick="switchUser('yunjae')"><span class="su-av">🏊</span><div><div class="su-name">윤재</div><div class="su-gyj">중1 • Jake</div></div></button>
       <button class="su su-yg" id="sYg" onclick="switchUser('yungeon')"><span class="su-av">🏅</span><div><div class="su-name">윤건</div><div class="su-gyg">초5 • Sunny</div></div></button>
     </div>
     <div class="sbot">
-      <div class="sinfo">AI가 주제를 골라 대화를 이끌어요.<br>🎤 버튼 누르고 영어로 말해보세요!</div>
+      <div class="sinfo" id="sideInfo">AI 선생님이 대화를 이끌어요.<br>🎤 버튼 누르고 말해보세요!</div>
       <div class="ksrow"><span class="kslbl">🇰🇷 한국어 먼저</span><div class="tsw" id="kSwS" onclick="toggleKor()"><div class="tsl"></div></div></div>
-      <button class="bkd" onclick="goHome()">← 홈으로</button>
+      <button class="bkd" onclick="endSession()">📊 오늘 학습 마무리</button>
+      <button class="bkd" onclick="goHome()" style="margin-top:4px">← 홈으로</button>
     </div>
   </div>
   <div class="cmain">
@@ -249,9 +294,10 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
       <div class="hav" id="hAv"></div>
       <div><div class="hname" id="hName"></div><div class="hstat" id="hStat"></div></div>
       <div class="hbadge" id="hBadge"></div>
+      <button class="end-btn" onclick="endSession()">마무리 📊</button>
     </div>
     <div class="msgs" id="msgs">
-      <div class="empty" id="empty"><div style="font-size:44px;margin-bottom:12px" id="eEmoji">🤖</div><div id="eTxt">선생님이 오늘의 주제를 고르는 중이에요...</div></div>
+      <div class="empty" id="empty"><div style="font-size:44px;margin-bottom:12px" id="eEmoji">🤖</div><div id="eTxt">선생님이 준비 중이에요...</div></div>
     </div>
     <div class="vpanel">
       <div class="kwrap"><span class="klbl">🇰🇷 한국어</span><div class="tsw" id="kSwM" onclick="toggleKor()"><div class="tsl"></div></div></div>
@@ -261,175 +307,590 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
   </div>
 </div>
 
+<!-- ══ SUMMARY ══ -->
+<div id="summary" class="screen dark-bg hidden">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="sum-box">
+    <div class="sum-header">
+      <span class="sum-emoji" id="sumEmoji">🎉</span>
+      <div class="sum-title" id="sumTitle">오늘 수업 완료!</div>
+      <div class="sum-sub" id="sumSub">수고했어요! 오늘의 학습 결과예요</div>
+    </div>
+    <div class="sum-topic">
+      <div style="font-size:28px" id="sumTopicEmoji">💬</div>
+      <div><div class="sum-topic-lbl">오늘의 주제</div><div class="sum-topic-val" id="sumTopicVal">대화 중...</div></div>
+    </div>
+    <div class="sum-stats">
+      <div class="sum-stat"><div class="sum-stat-n" id="sumSessions" style="color:#00d4ff">-</div><div class="sum-stat-l">총 대화 수</div></div>
+      <div class="sum-stat"><div class="sum-stat-n" id="sumStreak" style="color:#ffd166">-</div><div class="sum-stat-l">연속 일수 🔥</div></div>
+      <div class="sum-stat"><div class="sum-stat-n" id="sumTotalCorr" style="color:#ff8080">-</div><div class="sum-stat-l">총 교정 수</div></div>
+    </div>
+    <div class="sum-section">
+      <div class="sum-sec-title" style="color:#ffaa00">💡 오늘 교정된 표현</div>
+      <div id="sumCorrections"><div class="sum-empty">교정 내용이 없어요 👍</div></div>
+    </div>
+    <div class="sum-section">
+      <div class="sum-sec-title" style="color:#00e676">⭐ 잘한 표현</div>
+      <div id="sumGood"><div class="sum-empty">계속 대화해보세요!</div></div>
+    </div>
+    <div class="sum-btns">
+      <button class="sum-btn-cont" id="sumContBtn" onclick="continueChat()">🎤 계속 대화하기</button>
+      <button class="sum-btn-home" onclick="goHome()">🏠 홈으로</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const P={
-  yunjae:{
-    name:'윤재',emoji:'🏊',grade:'중1·수영선수',aiName:'Jake',aiEmoji:'🤙',
-    theme:'th-yj',avBg:'linear-gradient(135deg,rgba(0,180,255,.2),rgba(0,100,255,.2))',avBd:'rgba(0,180,255,.3)',
-    sc:'#40c8ff',bbg:'rgba(0,180,255,.1)',bc:'#40c8ff',bbd:'rgba(0,180,255,.2)',
-    vbc:'vbyj',ub:'byj',fc:'fyj',dc:'rgba(0,200,255,.65)',tp:1.0,tr:0.92,
-    sp:`You are "Jake", a cool English conversation buddy for Yunjae (윤재), Korean 13-year-old.
-Background: 4 years international school in Indonesia (fluent English), competitive swimmer, just returned to Korea.
-VOICE RULES: 2-4 sentences max. Natural spoken English. No lists/markdown. End with 1 question.
-STYLE: Cool older friend. Topics to rotate: swimming competitions, Indonesia vs Korea life, gaming, school, music, travel dreams, food, future, funny hypotheticals. React: "That's wild!", "No way!", "Honestly though,"
-CORRECTION: Respond to content first. Then: "Quick tip — say [correct] instead of [wrong]." One tip max.
-KOREAN MODE: If [KOREAN] in message — "In English: '[translation]' — try that!" then continue in English.`
+// ══════════════════════════════════════════════
+// STORAGE KEYS
+const SK = 'eb_key_v3';
+const HIST_K = 'eb_hist_v2';
+const STATS_K = 'eb_stats_v2';
+
+// ══════════════════════════════════════════════
+// PROFILES
+const P = {
+  yunjae: {
+    name:'윤재', emoji:'🏊', grade:'중1·수영선수', aiName:'Jake', aiEmoji:'🤙',
+    theme:'th-yj', avBg:'linear-gradient(135deg,rgba(0,180,255,.2),rgba(0,100,255,.2))',
+    avBd:'rgba(0,180,255,.3)', sc:'#40c8ff', bbg:'rgba(0,180,255,.1)',
+    bc:'#40c8ff', bbd:'rgba(0,180,255,.2)', vbc:'vbyj', ub:'byj', fc:'fyj',
+    dc:'rgba(0,200,255,.65)', tp:1.0, tr:0.92, btnColor:'linear-gradient(135deg,#00d4ff,#0070ff)',
+    systemPrompt: (ctx, prevTopics) => `You are "Jake", an enthusiastic and skilled English teacher AND conversation partner for Yunjae (윤재), a Korean 13-year-old middle school student who:
+- Lived in Indonesia for 4 years at an international school — his English is near-fluent
+- Is a competitive swimmer who trains hard and competes in races
+- Just moved back to Korea from Indonesia and sometimes misses it
+
+${ctx ? `MEMORY FROM PREVIOUS SESSIONS:\n${ctx}\n` : ''}
+${prevTopics.length > 0 ? `TOPICS ALREADY COVERED (avoid repeating): ${prevTopics.join(', ')}\n` : ''}
+
+YOUR ROLE — YOU ARE THE DRIVER OF THIS CONVERSATION:
+1. ALWAYS start by introducing yourself briefly and picking a fresh, engaging topic
+2. Share your own interesting opinion or story about the topic FIRST to model natural English
+3. Ask ONE focused, open-ended question to get Yunjae talking
+4. When he responds, GENUINELY react, dig deeper, challenge him to say more
+5. Naturally transition to related sub-topics to keep things flowing
+6. After 4-5 exchanges, smoothly pivot to a new related topic
+
+CONVERSATION TOPICS (pick fresh ones, vary each session):
+- Upcoming swimming competitions and how he's preparing
+- Comparing life in Indonesia vs Korea (food, friends, school, weather)
+- His favorite games, YouTube channels, or shows right now
+- "Would you rather..." hypothetical scenarios
+- Interesting science or world facts → his opinion
+- Music: what he listens to while training
+- Future dreams: beyond swimming, what does he want to do?
+- Friendship: what makes a real friend?
+- School life now vs international school
+- Travel dreams: where would he go and why?
+
+LANGUAGE TEACHING (weave in naturally):
+- Use rich vocabulary naturally; if he uses a basic word, mirror back with a better one
+- Introduce 1-2 new idioms or expressions per session, explain them casually
+- Example: "We have an expression — 'bite the bullet' — it means to do something hard even though it's scary. Like, you had to bite the bullet at your last swim meet, right?"
+
+GRAMMAR CORRECTION SYSTEM:
+- ALWAYS respond to his CONTENT first with genuine interest
+- Then if there's a grammar mistake, end your message with:
+  "CORRECTION: [wrong] → [right]: [brief explanation]"
+- Be encouraging: frame corrections as "pro tips" not mistakes
+- Maximum 1 correction per turn
+- Track patterns — if he repeats the same mistake, gently note it
+
+ENGAGEMENT TECHNIQUES:
+- If he gives a short answer (under 10 words): "Come on, tell me more! What do you mean by that?"
+- If he seems stuck: offer two options "Do you mean A or B?"
+- Celebrate good responses: "YES! That's exactly the right word!" 
+- Create mini-challenges: "Okay, describe your last swim meet in 3 sentences — go!"
+
+VOICE CONVERSATION — keep each response to 3-5 natural spoken sentences. No bullet points or lists.
+
+SESSION SUMMARY (when you see [END_SESSION] in user message):
+Generate a summary in this EXACT format:
+TOPIC: [main topic discussed today]
+CORRECTIONS:
+- [wrong phrase] → [correct phrase]
+- [if none, write "None! Great job!"]
+GOOD:
+- [something he said really well]
+- [another positive thing]
+END_SUMMARY`
   },
-  yungeon:{
-    name:'윤건',emoji:'🏅',grade:'초5·수영선수',aiName:'Sunny',aiEmoji:'☀️',
-    theme:'th-yg',avBg:'linear-gradient(135deg,rgba(180,80,255,.2),rgba(100,0,255,.2))',avBd:'rgba(180,80,255,.3)',
-    sc:'#c87fff',bbg:'rgba(180,80,255,.1)',bc:'#c87fff',bbd:'rgba(180,80,255,.2)',
-    vbc:'vbyg',ub:'byg',fc:'fyg',dc:'rgba(180,100,255,.7)',tp:1.15,tr:0.88,
-    sp:`You are "Sunny", a warm English buddy for Yungeon (윤건), Korean 11-year-old.
-Background: 4 years international school in Indonesia (good English), competitive swimmer with medals, just returned to Korea.
-VOICE RULES: 2-3 sentences max. Warm spoken English. No lists. End with 1 easy question.
-STYLE: Awesome older sibling. Topics: swimming medals, Indonesia memories, animals, food, Minecraft/Roblox, superheroes, funny facts, school, cartoons. React big: "Oh wow!", "That's SO cool!", "No way, really?!"
-CORRECTION: Warm response first. Then: "English tip — say [correct]!" Super brief and kind.
-KOREAN MODE: If [KOREAN] in message — "In English: '[translation]' — try it!" then continue warmly.`
+  yungeon: {
+    name:'윤건', emoji:'🏅', grade:'초5·수영선수', aiName:'Sunny', aiEmoji:'☀️',
+    theme:'th-yg', avBg:'linear-gradient(135deg,rgba(180,80,255,.2),rgba(100,0,255,.2))',
+    avBd:'rgba(180,80,255,.3)', sc:'#c87fff', bbg:'rgba(180,80,255,.1)',
+    bc:'#c87fff', bbd:'rgba(180,80,255,.2)', vbc:'vbyg', ub:'byg', fc:'fyg',
+    dc:'rgba(180,100,255,.7)', tp:1.15, tr:0.88, btnColor:'linear-gradient(135deg,#c87fff,#7b2fff)',
+    systemPrompt: (ctx, prevTopics) => `You are "Sunny", a super fun and caring English teacher AND best friend for Yungeon (윤건), a Korean 11-year-old elementary school student who:
+- Lived in Indonesia for 4 years at an international school — his English is good!
+- Is a competitive swimmer who has won medals
+- Just moved back to Korea from Indonesia
+
+${ctx ? `MEMORY FROM PREVIOUS SESSIONS:\n${ctx}\n` : ''}
+${prevTopics.length > 0 ? `TOPICS ALREADY COVERED (avoid repeating): ${prevTopics.join(', ')}\n` : ''}
+
+YOUR ROLE — YOU ARE THE FUN TEACHER WHO DRIVES EVERYTHING:
+1. Start every session with a super exciting topic opener — make him WANT to talk!
+2. Share something fun or surprising about the topic first to spark curiosity
+3. Ask ONE simple, fun question
+4. Celebrate EVERY answer enthusiastically before going deeper
+5. Use the "Yes, and..." technique — agree, expand, then redirect with a new angle
+6. Keep energy HIGH and pace MOVING
+
+CONVERSATION TOPICS (age-appropriate, super fun):
+- Swimming races — the excitement, nervousness, winning moments
+- Cool animals from Indonesia he might have seen
+- Minecraft, Roblox, or whatever games he loves
+- If he had a superpower, what would it be and why?
+- Indonesian food vs Korean food — favorites?
+- Funny or embarrassing moments (everyone has them!)
+- Best and worst things about switching schools
+- His favorite cartoon, movie, or YouTube video
+- Space, dinosaurs, or other cool science stuff
+- What would he do with 1 million dollars?
+
+LANGUAGE TEACHING (make it FUN):
+- Introduce new words through stories: "There's a cool word — 'thrilling' — it means super exciting, like the feeling right before a race!"
+- Use repetition naturally: repeat a good word he used back to him
+- Simple grammar, but EXPRESSIVE — teach him how to make English sound exciting
+
+GRAMMAR CORRECTION SYSTEM:
+- ALWAYS celebrate his effort first: "Great idea! Just one small fix:"
+- Then: "CORRECTION: [wrong] → [right]: [super simple explanation]"
+- Keep it SHORT and POSITIVE — he should feel proud, not embarrassed
+- Maximum 1 correction per turn
+
+ENGAGEMENT TECHNIQUES:
+- Short answers? "Ooh, say more! I want to know everything! 😄"
+- Stuck? "Okay okay, let me give you two choices — is it more like A or B?"
+- Mini games: "Let's play a game — I say a word, you use it in a sentence!"
+- High fives in words: "YESSS that was perfect!" "I love that answer!"
+
+VOICE CONVERSATION — 2-4 warm, enthusiastic spoken sentences. No lists.
+
+SESSION SUMMARY (when you see [END_SESSION] in user message):
+Generate a summary in this EXACT format:
+TOPIC: [main topic discussed today]
+CORRECTIONS:
+- [wrong phrase] → [correct phrase]
+- [if none, write "None! Perfect!"]
+GOOD:
+- [something he said really well]
+- [another great thing]
+END_SUMMARY`
   }
 };
 
-let u=null,ms=[],load=false,lstn=false,spk=false,rec=null,kor=false,vox=[];
-const sy=window.speechSynthesis,SK='eb_key_v3';
-function lv(){vox=sy.getVoices();}lv();
-if(sy.onvoiceschanged!==undefined)sy.onvoiceschanged=lv;
+// ══ STATE ══════════════════════════════════════
+let u=null, ms=[], loading=false, lstn=false, spk=false;
+let rec=null, kor=false, vox=[], sessionStart=Date.now();
+let sessionCorrections=[], sessionGoodPhrases=[], sessionTopic='General English';
+const sy=window.speechSynthesis;
 
-/* KEY */
+function lv(){vox=sy.getVoices();}
+lv();
+if(sy.onvoiceschanged!==undefined) sy.onvoiceschanged=lv;
+
+// ══ STORAGE ════════════════════════════════════
 function getK(){return localStorage.getItem(SK)||'';}
+
+function loadStats(uid){
+  const all=JSON.parse(localStorage.getItem(STATS_K)||'{}');
+  return all[uid]||{totalSessions:0,totalMinutes:0,streak:0,lastDate:'',totalCorrections:0};
+}
+
+function saveStats(uid,mins,corrCount){
+  const all=JSON.parse(localStorage.getItem(STATS_K)||'{}');
+  const s=all[uid]||{totalSessions:0,totalMinutes:0,streak:0,lastDate:'',totalCorrections:0};
+  const today=new Date().toLocaleDateString('ko-KR');
+  if(s.lastDate!==today){
+    const prev=new Date();prev.setDate(prev.getDate()-1);
+    s.streak=(s.lastDate===prev.toLocaleDateString('ko-KR'))?s.streak+1:1;
+    s.lastDate=today;
+  }
+  s.totalSessions++;
+  s.totalMinutes+=mins;
+  s.totalCorrections+=corrCount;
+  all[uid]=s;
+  localStorage.setItem(STATS_K,JSON.stringify(all));
+  return s;
+}
+
+function loadHistory(uid){
+  const all=JSON.parse(localStorage.getItem(HIST_K)||'{}');
+  return all[uid]||[];
+}
+
+function saveHistory(uid,topic,corrections,good){
+  const all=JSON.parse(localStorage.getItem(HIST_K)||'{}');
+  if(!all[uid]) all[uid]=[];
+  all[uid].push({
+    date:new Date().toLocaleDateString('ko-KR'),
+    topic, corrections, good, ts:Date.now()
+  });
+  if(all[uid].length>30) all[uid]=all[uid].slice(-30);
+  localStorage.setItem(HIST_K,JSON.stringify(all));
+}
+
+function buildContext(uid){
+  const hist=loadHistory(uid);
+  if(hist.length===0) return '';
+  const recent=hist.slice(-5);
+  let ctx='Recent conversation history:\n';
+  recent.forEach(h=>{
+    ctx+=`- ${h.date}: Topic "${h.topic}"`;
+    if(h.corrections&&h.corrections.length>0&&h.corrections[0]!=='None! Great job!'&&h.corrections[0]!=='None! Perfect!'){
+      ctx+=` | Corrections: ${h.corrections.slice(0,2).join(', ')}`;
+    }
+    ctx+='\n';
+  });
+  return ctx;
+}
+
+function getPrevTopics(uid){
+  const hist=loadHistory(uid);
+  return hist.slice(-8).map(h=>h.topic).filter(Boolean);
+}
+
+function updateHomeStats(){
+  ['yunjae','yungeon'].forEach(uid=>{
+    const s=loadStats(uid);
+    const sn=document.getElementById('sn-'+uid);
+    const sm=document.getElementById('sm-'+uid);
+    const sc=document.getElementById('sc-'+uid);
+    if(sn) sn.textContent=s.totalSessions;
+    if(sm) sm.textContent=s.streak;
+    if(sc) sc.textContent=s.totalCorrections;
+  });
+}
+
+// ══ API KEY ════════════════════════════════════
 function saveKey(){
   const v=document.getElementById('apiInput').value.trim();
   const e=document.getElementById('apiErr');
   if(!v.startsWith('sk-ant-')){e.style.display='block';return;}
-  e.style.display='none';localStorage.setItem(SK,v);show('home');
+  e.style.display='none';
+  localStorage.setItem(SK,v);
+  show('home'); updateHomeStats();
 }
-function changeKey(){document.getElementById('apiInput').value='';document.getElementById('apiErr').style.display='none';show('apikey');}
+function changeKey(){
+  document.getElementById('apiInput').value='';
+  document.getElementById('apiErr').style.display='none';
+  show('apikey');
+}
 function toggleEye(){const i=document.getElementById('apiInput');i.type=i.type==='password'?'text':'password';}
+
 window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('apiInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveKey();});
-  getK()?show('home'):show('apikey');
+  if(getK()){show('home');updateHomeStats();}
+  else show('apikey');
 });
 
-/* NAV */
+// ══ NAVIGATION ═════════════════════════════════
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('hidden',s.id!==id));}
-function selectUser(id){u=P[id];ms=[];setupUI();show('chat');startConvo();}
-function switchUser(id){sy.cancel();stopL();u=P[id];ms=[];setupUI();startConvo();}
-function goHome(){stopL();sy.cancel();show('home');u=null;ms=[];}
+
+function selectUser(id){
+  u=P[id]; ms=[]; sessionCorrections=[]; sessionGoodPhrases=[]; sessionTopic='General English';
+  sessionStart=Date.now();
+  setupUI(); show('chat'); startConvo();
+}
+
+function switchUser(id){
+  sy.cancel(); stopL();
+  u=P[id]; ms=[]; sessionCorrections=[]; sessionGoodPhrases=[]; sessionTopic='General English';
+  sessionStart=Date.now();
+  setupUI(); startConvo();
+}
+
+function goHome(){
+  stopL(); sy.cancel();
+  show('home'); updateHomeStats();
+  u=null; ms=[];
+}
 
 function setupUI(){
   document.getElementById('chat').className='screen '+u.theme;
   const av=document.getElementById('hAv');
   av.textContent=u.aiEmoji;
-  av.style.cssText=`width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:${u.avBg};border:1px solid ${u.avBd}`;
+  av.style.cssText=`width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:${u.avBg};border:1px solid ${u.avBd}`;
   document.getElementById('hName').textContent=u.aiName;
   const hs=document.getElementById('hStat');hs.textContent='online ●';hs.style.color=u.sc;
   const hb=document.getElementById('hBadge');
-  hb.textContent=u.grade;hb.style.cssText=`margin-left:auto;border-radius:18px;padding:5px 12px;font-size:11px;font-weight:800;flex-shrink:0;background:${u.bbg};color:${u.bc};border:1px solid ${u.bbd}`;
+  hb.textContent=u.grade;
+  hb.style.cssText=`margin-left:auto;border-radius:18px;padding:4px 11px;font-size:11px;font-weight:800;flex-shrink:0;background:${u.bbg};color:${u.bc};border:1px solid ${u.bbd}`;
   document.getElementById('vBtn').className='vbtn '+u.vbc;
-  document.getElementById('msgs').innerHTML=`<div class="empty" id="empty"><div style="font-size:44px;margin-bottom:12px">${u.aiEmoji}</div><div>${u.aiName}가 오늘의 주제를 고르는 중이에요...</div></div>`;
+  document.getElementById('msgs').innerHTML=`<div class="empty" id="empty"><div style="font-size:44px;margin-bottom:12px">${u.aiEmoji}</div><div>${u.aiName} 선생님이 준비 중이에요...</div></div>`;
   document.getElementById('sYj').classList.toggle('active',u===P.yunjae);
   document.getElementById('sYg').classList.toggle('active',u===P.yungeon);
-  ss('준비 중...');sh('잠시만 기다려주세요');si('⏳');
-  kor=false;updKor();
+
+  // sidebar session info
+  const hist=loadHistory(u.name.toLowerCase()==='윤재'?'yunjae':'yungeon');
+  const info=hist.length>0?`마지막 주제: "${hist[hist.length-1].topic}"`:'첫 번째 수업이에요! 😊';
+  document.getElementById('sideInfo').innerHTML=`AI 선생님이 대화를 이끌어요.<br><span style="color:rgba(255,255,255,.5);font-size:11px">${info}</span>`;
+
+  ss('준비 중...'); sh('잠시만 기다려주세요'); si('⏳');
+  kor=false; updKor();
 }
 
-/* API */
+// ══ CONVERSATION ═══════════════════════════════
+function getUid(){return u===P.yunjae?'yunjae':'yungeon';}
+
 async function startConvo(){
-  await callAI([{role:'user',content:`Hi ${u.aiName}! I'm ${u.name}. I just moved back to Korea after 4 years in Indonesia. I'm a competitive swimmer. Let's chat in English — pick a fun topic and start!`}],true);
+  const uid=getUid();
+  const ctx=buildContext(uid);
+  const prevTopics=getPrevTopics(uid);
+  const sysPrompt=u.systemPrompt(ctx,prevTopics);
+
+  const hist=loadHistory(uid);
+  const isReturn=hist.length>0;
+  const lastTopic=isReturn?hist[hist.length-1].topic:'';
+
+  const starterMsg=isReturn
+    ? `Hi ${u.aiName}! I'm back! Last time we talked about "${lastTopic}". I'm ready to practice English again — what are we talking about today?`
+    : `Hi ${u.aiName}! I'm ${u.name}. I just moved back to Korea after living in Indonesia for 4 years. I'm a competitive swimmer. Let's start our first English lesson!`;
+
+  await callAI([{role:'user',content:starterMsg}], true, sysPrompt);
 }
-async function callAI(am,isFirst){
+
+async function callAI(apiMsgs, isFirst, sysPromptOverride){
   const key=getK();
-  if(!key){addAI('🔑 API 키가 없어요! 홈에서 API 키를 설정해주세요.');return;}
-  load=true;showT(true);ss('AI가 생각 중...');si('⏳');
+  if(!key){addAI('🔑 API 키가 없어요! 홈에서 설정해주세요.');return;}
+  loading=true; showT(true);
+  ss('선생님이 생각 중...'); si('⏳');
   document.getElementById('hStat').textContent='생각 중...';
+
+  const uid=getUid();
+  const sysPrompt=sysPromptOverride||u.systemPrompt(buildContext(uid),getPrevTopics(uid));
+
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:400,system:u.sp,messages:am})
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,system:sysPrompt,messages:apiMsgs})
     });
-    const d=await r.json();
-    if(d.error)throw new Error(d.error.message);
-    const rep=(d.content||[]).map(b=>b.text||'').join('')||'Can you try again?';
-    showT(false);remE();addAI(rep);
-    if(isFirst)ms=[{role:'user',content:am[0].content},{role:'assistant',content:rep}];
-    else ms.push({role:'assistant',content:rep});
-    speak(rep);
+    const d=await res.json();
+    if(d.error) throw new Error(d.error.message);
+    const reply=(d.content||[]).map(b=>b.text||'').join('')||'Can you try again?';
+
+    showT(false); remE();
+
+    // Parse corrections and good phrases from reply
+    const corrMatch=reply.match(/CORRECTION:\s*(.+?)(?:\n|$)/i);
+    if(corrMatch){
+      sessionCorrections.push(corrMatch[1].trim());
+    }
+
+    // Extract topic hint if AI mentions it
+    const topicHints=['swimming','Indonesia','Korea','school','game','food','music','friend','future','sport','travel','dream'];
+    topicHints.forEach(t=>{
+      if(reply.toLowerCase().includes(t)&&sessionTopic==='General English'){
+        sessionTopic=t.charAt(0).toUpperCase()+t.slice(1)+' conversation';
+      }
+    });
+
+    addAI(reply);
+
+    if(isFirst) ms=[{role:'user',content:apiMsgs[0].content},{role:'assistant',content:reply}];
+    else ms.push({role:'assistant',content:reply});
+
+    speak(reply);
   }catch(e){
-    showT(false);remE();
-    addAI(e.message&&e.message.toLowerCase().includes('invalid')?'❌ API 키가 올바르지 않아요. 홈에서 키를 다시 확인해주세요.':`오류: ${e.message}`);
-    load=false;ss('오류 발생');si('🎤');
+    showT(false); remE();
+    addAI(e.message&&e.message.toLowerCase().includes('invalid')
+      ?'❌ API 키가 올바르지 않아요. 홈에서 키를 다시 확인해주세요.'
+      :`오류: ${e.message}`);
+    loading=false; ss('오류 발생'); si('🎤');
     document.getElementById('hStat').textContent='오류';
   }
 }
 
-/* STT */
+// ══ END SESSION & SUMMARY ══════════════════════
+async function endSession(){
+  if(ms.length<2){goHome();return;}
+  stopL(); sy.cancel();
+
+  // Ask AI for summary
+  loading=true; showT(true); ss('학습 내용 정리 중...');
+
+  const uid=getUid();
+  const summaryMsgs=[...ms,{role:'user',content:'[END_SESSION] Please provide the session summary now.'}];
+
+  const key=getK();
+  let topic=sessionTopic, corrections=[], good=[];
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:400,system:u.systemPrompt(buildContext(uid),getPrevTopics(uid)),messages:summaryMsgs})
+    });
+    const d=await res.json();
+    if(!d.error){
+      const txt=(d.content||[]).map(b=>b.text||'').join('');
+      const parsed=parseSummary(txt);
+      topic=parsed.topic; corrections=parsed.corrections; good=parsed.good;
+    }
+  }catch(e){}
+
+  showT(false);
+
+  // Add session corrections too
+  if(sessionCorrections.length>0){
+    corrections=[...new Set([...corrections,...sessionCorrections])];
+  }
+
+  // Save
+  const mins=Math.round((Date.now()-sessionStart)/60000)||1;
+  const stats=saveStats(uid,mins,corrections.filter(c=>!c.includes('None')).length);
+  saveHistory(uid,topic,corrections,good);
+
+  // Show summary screen
+  showSummary(topic,corrections,good,stats);
+}
+
+function parseSummary(txt){
+  const topicM=txt.match(/TOPIC:\s*(.+)/i);
+  const corrM=txt.match(/CORRECTIONS:\n([\s\S]*?)(?=GOOD:|END_SUMMARY|$)/i);
+  const goodM=txt.match(/GOOD:\n([\s\S]*?)(?=END_SUMMARY|TOPIC:|$)/i);
+  return {
+    topic: topicM?topicM[1].trim():'English conversation',
+    corrections: corrM?corrM[1].trim().split('\n').map(l=>l.replace(/^-\s*/,'')).filter(Boolean):[],
+    good: goodM?goodM[1].trim().split('\n').map(l=>l.replace(/^-\s*/,'')).filter(Boolean):[]
+  };
+}
+
+function showSummary(topic,corrections,good,stats){
+  const uid=getUid();
+  const isYj=uid==='yunjae';
+
+  document.getElementById('sumEmoji').textContent=isYj?'🏊':'🏅';
+  document.getElementById('sumTitle').textContent=`${u.name}, 수고했어요!`;
+  document.getElementById('sumSub').textContent='오늘의 English Buddy 학습 결과';
+  document.getElementById('sumTopicEmoji').textContent='💬';
+  document.getElementById('sumTopicVal').textContent=topic;
+  document.getElementById('sumSessions').textContent=stats.totalSessions;
+  document.getElementById('sumStreak').textContent=stats.streak+'일';
+  document.getElementById('sumTotalCorr').textContent=stats.totalCorrections;
+
+  const corrEl=document.getElementById('sumCorrections');
+  const goodEl=document.getElementById('sumGood');
+  const validCorr=corrections.filter(c=>c&&!c.includes('None'));
+  corrEl.innerHTML=validCorr.length>0
+    ?validCorr.map(c=>`<div class="sum-item fix-item">💡 ${c}</div>`).join('')
+    :'<div class="sum-empty">교정 없음 — 완벽해요! 👍</div>';
+
+  const validGood=good.filter(g=>g&&!g.includes('None'));
+  goodEl.innerHTML=validGood.length>0
+    ?validGood.map(g=>`<div class="sum-item good-item">⭐ ${g}</div>`).join('')
+    :'<div class="sum-empty">다음 세션에서 더 많이 대화해봐요!</div>';
+
+  const btn=document.getElementById('sumContBtn');
+  btn.style.background=u.btnColor;
+
+  show('summary');
+}
+
+function continueChat(){
+  show('chat');
+}
+
+// ══ STT ════════════════════════════════════════
 function toggleListen(){
-  if(load||spk)return;
+  if(loading||spk)return;
   if(lstn){stopL();return;}
   sy.cancel();
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert('Chrome 또는 Safari를 사용해주세요!');return;}
-  const r=new SR();r.lang=kor?'ko-KR':'en-US';r.continuous=false;r.interimResults=true;
+  const r=new SR();
+  r.lang=kor?'ko-KR':'en-US'; r.continuous=false; r.interimResults=true;
   r.onstart=()=>{lstn=true;si('⏹️');ss('듣고 있어요... 말해보세요! 🎤');sh('말이 끝나면 자동으로 전송돼요');document.getElementById('vBtn').classList.add('listening');};
   r.onresult=(e)=>{
     const t=Array.from(e.results).map(x=>x[0].transcript).join('');
-    if(e.results[e.results.length-1].isFinal)finL(t);else ss(`"${t}"...`);
+    if(e.results[e.results.length-1].isFinal) finL(t);
+    else ss(`"${t}"...`);
   };
   r.onerror=(e)=>{stopL();si('🎤');
-    if(e.error==='no-speech')ss('소리가 안 들려요. 다시 눌러보세요');
-    else if(e.error==='not-allowed')ss('마이크 권한을 허용해주세요!');
+    if(e.error==='no-speech') ss('소리가 안 들려요. 다시 눌러보세요');
+    else if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
     else ss('오류. 다시 시도해보세요');
   };
-  r.onend=()=>{lstn=false;document.getElementById('vBtn').classList.remove('listening');if(!load&&!spk)si('🎤');};
-  rec=r;r.start();
-}
-function stopL(){if(rec)try{rec.stop();}catch(e){}lstn=false;document.getElementById('vBtn').classList.remove('listening');}
-function finL(t){
-  stopL();if(!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');return;}
-  addUser(t);ms.push({role:'user',content:kor?`[KOREAN] ${t}`:t});callAI(ms,false);
+  r.onend=()=>{lstn=false;document.getElementById('vBtn').classList.remove('listening');if(!loading&&!spk)si('🎤');};
+  rec=r; r.start();
 }
 
-/* TTS */
+function stopL(){
+  if(rec)try{rec.stop();}catch(e){}
+  lstn=false; document.getElementById('vBtn').classList.remove('listening');
+}
+
+function finL(t){
+  stopL();
+  if(!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');return;}
+  addUser(t);
+  ms.push({role:'user',content:kor?`[KOREAN] ${t}`:t});
+  callAI(ms,false,null);
+}
+
+// ══ TTS ════════════════════════════════════════
 function speak(text){
   sy.cancel();
-  const clean=text.replace(/Quick tip[:\-—]\s*/gi,'Quick tip. ').replace(/English tip[:\-—]\s*/gi,'English tip. ').replace(/[*_`🔑❌]/g,'');
+  // Remove correction markers and summary markers for TTS
+  const clean=text
+    .replace(/CORRECTION:[\s\S]*?(?=\n\n|$)/gi,'')
+    .replace(/TOPIC:[\s\S]*/gi,'')
+    .replace(/[*_`🔑❌]/g,'')
+    .trim();
+  if(!clean){loading=false;ss('버튼을 누르고 말해보세요');si('🎤');return;}
   const utt=new SpeechSynthesisUtterance(clean);
   const ev=vox.filter(v=>v.lang.startsWith('en'));
   const pv=ev.find(v=>v.name.includes('Samantha')||v.name.includes('Karen')||v.name.includes('Google US English')||v.name.includes('Daniel'))||ev[0];
   if(pv)utt.voice=pv;
-  utt.lang='en-US';utt.pitch=u.tp;utt.rate=u.tr;utt.volume=1;
-  utt.onstart=()=>{spk=true;load=false;document.getElementById('vBtn').classList.add('speaking');si('🔊');ss(`${u.aiName}가 말하는 중... 🔊`);sh('끝나면 🎤 버튼을 눌러 대답하세요');document.getElementById('hStat').textContent='말하는 중 🔊';};
+  utt.lang='en-US'; utt.pitch=u.tp; utt.rate=u.tr; utt.volume=1;
+  utt.onstart=()=>{spk=true;loading=false;document.getElementById('vBtn').classList.add('speaking');si('🔊');ss(`${u.aiName} 선생님이 말하는 중... 🔊`);sh('끝나면 🎤 버튼을 눌러 대답하세요');document.getElementById('hStat').textContent='말하는 중 🔊';};
   utt.onend=()=>{spk=false;document.getElementById('vBtn').classList.remove('speaking');si('🎤');ss('버튼을 누르고 말해보세요');sh('말이 끝나면 자동으로 AI가 답해요');document.getElementById('hStat').textContent='online ●';};
-  utt.onerror=()=>{spk=false;load=false;document.getElementById('vBtn').classList.remove('speaking');si('🎤');ss('버튼을 누르고 말해보세요');document.getElementById('hStat').textContent='online ●';};
+  utt.onerror=()=>{spk=false;loading=false;document.getElementById('vBtn').classList.remove('speaking');si('🎤');ss('버튼을 누르고 말해보세요');document.getElementById('hStat').textContent='online ●';};
   setTimeout(()=>sy.speak(utt),120);
   document.getElementById('hStat').textContent='응답 중...';
 }
 
-/* KOR */
+// ══ KOREAN TOGGLE ══════════════════════════════
 function toggleKor(){kor=!kor;updKor();}
 function updKor(){['kSwS','kSwM'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('on',kor);});}
 
-/* UI */
+// ══ UI HELPERS ═════════════════════════════════
 function addAI(text){
-  const rx=/(Quick tip[:\-—]|English tip[:\-—])([\s\S]*?)$/i;
-  const m=text.match(rx);let main=text,fix=null;
-  if(m){main=text.slice(0,m.index).trim();fix=m[0];}
+  // Separate correction from main text
+  const corrRx=/CORRECTION:\s*(.+?)(?:\n|$)/i;
+  const corrM=text.match(corrRx);
+  let main=text.replace(corrRx,'').trim();
+  // Also clean any summary markers that leaked
+  main=main.replace(/\[END_SESSION\][\s\S]*/,'').trim();
+
   const el=document.getElementById('msgs');
   const row=document.createElement('div');row.className='mrow';
   const av=document.createElement('div');
   av.style.cssText=`width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:${u.avBg};border:1px solid ${u.avBd}`;
   av.textContent=u.aiEmoji;
-  const wrap=document.createElement('div');wrap.style.maxWidth='76%';
+  const wrap=document.createElement('div');wrap.style.maxWidth='78%';
   const b=document.createElement('div');b.className='bub bai';b.textContent=main;wrap.appendChild(b);
-  if(fix){const f=document.createElement('div');f.className='fix '+u.fc;f.textContent=fix;wrap.appendChild(f);}
-  row.appendChild(av);row.appendChild(wrap);el.appendChild(row);el.scrollTop=el.scrollHeight;
+  if(corrM){
+    const f=document.createElement('div');
+    f.className='fix '+u.fc;
+    f.textContent='💡 '+corrM[1].trim();
+    wrap.appendChild(f);
+  }
+  row.appendChild(av);row.appendChild(wrap);
+  el.appendChild(row);el.scrollTop=el.scrollHeight;
 }
+
 function addUser(text){
   const el=document.getElementById('msgs');
   const row=document.createElement('div');row.className='mrow urow';
   const b=document.createElement('div');b.className='bub '+u.ub;b.textContent=text;
   row.appendChild(b);el.appendChild(row);el.scrollTop=el.scrollHeight;
 }
+
 let tEl=null;
 function showT(on){
   const el=document.getElementById('msgs');
@@ -444,6 +905,7 @@ function ss(t){document.getElementById('vStat').textContent=t;}
 function sh(t){document.getElementById('vHint').textContent=t;}
 function si(i){document.getElementById('vIcon').textContent=i;}
 
+// Spacebar = mic toggle on desktop
 document.addEventListener('keydown',e=>{
   if(e.code==='Space'&&!document.getElementById('chat').classList.contains('hidden')&&e.target.tagName!=='INPUT'){
     e.preventDefault();toggleListen();
