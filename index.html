@@ -250,6 +250,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
           <div class="cstat"><div class="cstat-n stat-yj" id="sm-yunjae">0</div><div class="cstat-l">연속 일수 🔥</div></div>
           <div class="cstat"><div class="cstat-n stat-yj" id="sc-yunjae">0</div><div class="cstat-l">교정 누적</div></div>
         </div>
+        <button onclick="event.stopPropagation();openReview('yunjae')" style="width:100%;margin-top:10px;border-radius:10px;padding:8px;border:1px solid rgba(0,212,255,.2);background:rgba(0,212,255,.08);color:#40c8ff;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">📖 학습 기록 보기</button>
       </button>
       <button class="pcard yg" onclick="selectUser('yungeon')">
         <div class="shine"></div>
@@ -263,6 +264,7 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
           <div class="cstat"><div class="cstat-n stat-yg" id="sm-yungeon">0</div><div class="cstat-l">연속 일수 🔥</div></div>
           <div class="cstat"><div class="cstat-n stat-yg" id="sc-yungeon">0</div><div class="cstat-l">교정 누적</div></div>
         </div>
+        <button onclick="event.stopPropagation();openReview('yungeon')" style="width:100%;margin-top:10px;border-radius:10px;padding:8px;border:1px solid rgba(200,127,255,.2);background:rgba(200,127,255,.08);color:#c87fff;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">📖 학습 기록 보기</button>
       </button>
     </div>
     <div class="hfoot">
@@ -302,8 +304,24 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
     <div class="vpanel">
       <div class="kwrap"><span class="klbl">🇰🇷 한국어</span><div class="tsw" id="kSwM" onclick="toggleKor()"><div class="tsl"></div></div></div>
       <button class="vbtn vbyj" id="vBtn" onclick="toggleListen()"><div class="ripple"></div><span id="vIcon">🎤</span></button>
-      <div class="vinfo"><div class="vstat" id="vStat">버튼을 꾹 누르고 말해보세요</div><div class="vhint" id="vHint">버튼 누르는 동안 말해요 — 손 떼면 전송!</div></div>
+      <div class="vinfo"><div class="vstat" id="vStat">버튼을 누르고 말해보세요</div><div class="vhint" id="vHint">말 끝나고 3초 후 자동 전송 • AI 말할 때 버튼 누르면 끊기</div></div>
     </div>
+  </div>
+</div>
+
+<!-- ══ REVIEW ══ -->
+<div id="review" class="screen dark-bg hidden">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div style="position:relative;z-index:1;width:100%;max-width:540px;margin:0 auto;height:100%;display:flex;flex-direction:column;padding:20px 16px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-shrink:0">
+      <button onclick="show('home');updateHomeStats()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">← 홈</button>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff" id="rvTitle">📖 학습 기록</div>
+        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.4)" id="rvSub">지금까지의 교정 기록</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-shrink:0" id="rvTabs"></div>
+    <div id="rvContent" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:20px"></div>
   </div>
 </div>
 
@@ -341,6 +359,120 @@ html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
 </div>
 
 <script>
+
+// ══ REVIEW (학습 기록 복습) ══════════════════════
+let rvUid = null;
+let rvTab = 'corr';
+
+function openReview(uid){
+  rvUid = uid;
+  rvTab = 'corr';
+  const name = uid==='yunjae'?'윤재':'윤건';
+  const accent = uid==='yunjae'?'#40c8ff':'#c87fff';
+  document.getElementById('rvTitle').textContent = `📖 ${name}의 학습 기록`;
+  document.getElementById('rvSub').textContent = '지금까지 쌓인 학습 내용을 복습해요';
+  renderTabs(accent);
+  renderReview();
+  show('review');
+}
+
+function renderTabs(accent){
+  const uid = rvUid;
+  const color = uid==='yunjae'?'rgba(0,212,255,.15)':'rgba(200,127,255,.15)';
+  const border = uid==='yunjae'?'rgba(0,212,255,.3)':'rgba(200,127,255,.3)';
+  const tabs = [
+    {id:'corr', label:'💡 교정 기록'},
+    {id:'good', label:'⭐ 잘한 표현'},
+    {id:'all',  label:'📅 전체 기록'}
+  ];
+  document.getElementById('rvTabs').innerHTML = tabs.map(t=>`
+    <button onclick="switchTab('${t.id}')" id="rtab-${t.id}" style="flex:1;border-radius:12px;padding:10px;border:none;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;
+      background:${rvTab===t.id?color:'rgba(255,255,255,.06)'};
+      color:${rvTab===t.id?accent:'rgba(255,255,255,.4)'};
+      border:1px solid ${rvTab===t.id?border:'rgba(255,255,255,.1)'}">
+      ${t.label}
+    </button>`).join('');
+}
+
+function switchTab(tab){
+  rvTab = tab;
+  const uid = rvUid;
+  const accent = uid==='yunjae'?'#40c8ff':'#c87fff';
+  renderTabs(accent);
+  renderReview();
+}
+
+function renderReview(){
+  const hist = loadHistory(rvUid);
+  const el = document.getElementById('rvContent');
+  const accent = rvUid==='yunjae'?'#40c8ff':'#c87fff';
+
+  if(hist.length===0){
+    el.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,.3);padding:60px 20px;font-size:14px;font-weight:600">
+      <div style="font-size:48px;margin-bottom:16px">📭</div>
+      아직 학습 기록이 없어요!<br>첫 수업을 시작해봐요 😊
+    </div>`;
+    return;
+  }
+
+  if(rvTab==='corr'){
+    // 모든 교정 모아서 날짜와 함께 보여주기
+    let allCorr = [];
+    hist.slice().reverse().forEach(h=>{
+      const valid = (h.corrections||[]).filter(c=>c&&!c.includes('None')&&!c.includes('Perfect')&&!c.includes('Great job'));
+      valid.forEach(c=> allCorr.push({date:h.date, text:c, topic:h.topic}));
+    });
+    if(allCorr.length===0){
+      el.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,.3);padding:60px 20px;font-size:14px;font-weight:600">
+        <div style="font-size:48px;margin-bottom:16px">🏆</div>교정 기록이 없어요!<br>영어를 완벽하게 잘하고 있어요 👍
+      </div>`;
+    } else {
+      el.innerHTML = `<div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:4px">총 ${allCorr.length}개의 교정 기록</div>` +
+        allCorr.map(c=>`
+        <div style="background:rgba(255,170,0,.07);border:1px solid rgba(255,170,0,.15);border-left:3px solid #ffaa00;border-radius:12px;padding:14px 16px">
+          <div style="font-size:14px;font-weight:700;color:#ffd080;margin-bottom:6px">💡 ${c.text}</div>
+          <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.35)">${c.date} · ${c.topic}</div>
+        </div>`).join('');
+    }
+  } else if(rvTab==='good'){
+    // 잘한 표현 모아서 보여주기
+    let allGood = [];
+    hist.slice().reverse().forEach(h=>{
+      const valid = (h.good||[]).filter(g=>g&&!g.includes('None'));
+      valid.forEach(g=> allGood.push({date:h.date, text:g, topic:h.topic}));
+    });
+    if(allGood.length===0){
+      el.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,.3);padding:60px 20px;font-size:14px;font-weight:600">
+        <div style="font-size:48px;margin-bottom:16px">💫</div>아직 기록된 잘한 표현이 없어요.<br>더 대화해봐요!
+      </div>`;
+    } else {
+      el.innerHTML = `<div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:4px">총 ${allGood.length}개의 칭찬 기록</div>` +
+        allGood.map(g=>`
+        <div style="background:rgba(0,230,100,.07);border:1px solid rgba(0,230,100,.15);border-left:3px solid #00e676;border-radius:12px;padding:14px 16px">
+          <div style="font-size:14px;font-weight:700;color:#80ffb0;margin-bottom:6px">⭐ ${g.text}</div>
+          <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.35)">${g.date} · ${g.topic}</div>
+        </div>`).join('');
+    }
+  } else {
+    // 전체 세션 목록
+    el.innerHTML = `<div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:4px">총 ${hist.length}번의 수업</div>` +
+      hist.slice().reverse().map((h,i)=>{
+        const validCorr=(h.corrections||[]).filter(c=>c&&!c.includes('None')&&!c.includes('Perfect')&&!c.includes('Great job'));
+        const validGood=(h.good||[]).filter(g=>g&&!g.includes('None'));
+        return `
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff">${h.topic||'영어 대화'}</div>
+            <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.35)">${h.date}</div>
+          </div>
+          ${validCorr.length>0?`<div style="margin-bottom:6px">${validCorr.map(c=>`<div style="font-size:12px;font-weight:700;color:#ffd080;padding:4px 0">💡 ${c}</div>`).join('')}</div>`:''}
+          ${validGood.length>0?`<div>${validGood.map(g=>`<div style="font-size:12px;font-weight:700;color:#80ffb0;padding:4px 0">⭐ ${g}</div>`).join('')}</div>`:''}
+          ${validCorr.length===0&&validGood.length===0?`<div style="font-size:12px;color:rgba(255,255,255,.3);font-weight:600">교정 없음 · 완벽했어요! 👍</div>`:''}
+        </div>`;
+      }).join('');
+  }
+}
+
 // ══════════════════════════════════════════════
 // STORAGE KEYS
 const SK = 'eb_key_v3';
@@ -795,128 +927,106 @@ function continueChat(){
   show('chat');
 }
 
-// ══ STT — PUSH TO TALK ═════════════════════════
-// 버튼을 누르는 동안 마이크가 켜지고, 손을 떼면 전송돼요.
-// 말 중간에 생각할 시간이 충분해요!
-let accumulated = ''; // 여러 세그먼트 누적
+// ══ STT ════════════════════════════════════════
+// 버튼 한 번 누르면 시작, 말 끝나고 3초 침묵하면 자동 전송
+// AI 말 중간에 버튼 누르면 즉시 끊고 내 차례
 let silenceTimer = null;
-const SILENCE_DELAY = 1800; // 말 멈춤 후 1.8초 대기 (비원어민 배려)
+const SILENCE_MS = 3000; // 3초 — 비원어민 충분히 배려
+
+function toggleListen(){
+  // AI 말하는 중에 누르면 즉시 인터럽트!
+  if(spk){
+    sy.cancel();
+    spk=false;
+    document.getElementById('vBtn').classList.remove('speaking');
+    document.getElementById('hStat').textContent='online ●';
+    si('🎤');
+    ss('버튼을 누르고 말해보세요');
+    sh('말 끝나고 3초 후 자동 전송 • 버튼 누르면 즉시 전송');
+    return;
+  }
+  if(loading) return;
+  if(lstn){ finishEarly(); return; } // 말 중간에 다시 누르면 즉시 전송
+  startListen();
+}
 
 function startListen(){
-  if(loading||spk)return;
-  sy.cancel();
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert('Chrome 또는 Safari를 사용해주세요!');return;}
-
-  accumulated='';
   clearTimeout(silenceTimer);
 
   const r=new SR();
   r.lang=kor?'ko-KR':'en-US';
-  r.continuous=true;      // 계속 듣기 — 자동 종료 안 됨
+  r.continuous=false;
   r.interimResults=true;
   r.maxAlternatives=1;
 
+  let lastTranscript='';
+
   r.onstart=()=>{
-    lstn=true;
-    si('🔴');
-    ss('누르는 동안 말해요... 천천히 해도 돼요! 🎤');
-    sh('버튼에서 손 떼면 전송돼요');
+    lstn=true; lastTranscript='';
+    si('⏹️');
+    ss('듣고 있어요... 천천히 말해도 돼요! 🎤');
+    sh('말 끝나고 3초 후 자동 전송 • 버튼 다시 누르면 즉시 전송');
     document.getElementById('vBtn').classList.add('listening');
   };
 
   r.onresult=(e)=>{
-    // 확정된 텍스트만 누적
-    let finalChunk='';
-    let interimChunk='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal) finalChunk+=e.results[i][0].transcript+' ';
-      else interimChunk+=e.results[i][0].transcript;
-    }
-    if(finalChunk) accumulated+=finalChunk;
+    const t=Array.from(e.results).map(x=>x[0].transcript).join('');
+    lastTranscript=t;
+    ss(`"${t}"`);
 
-    // 화면에 실시간 표시
-    const preview=(accumulated+interimChunk).trim();
-    if(preview) ss(`"${preview}"`);
-
-    // 말 멈춤 감지 — 타이머 리셋
+    // 말 감지될 때마다 타이머 리셋
     clearTimeout(silenceTimer);
-    if(lstn){
+
+    if(e.results[e.results.length-1].isFinal){
+      // isFinal 확정 후 3초 더 기다림 (추가로 말할 수 있으니)
       silenceTimer=setTimeout(()=>{
-        // 아직 버튼 누르고 있으면 그냥 계속 대기
-        // (버튼 뗄 때 전송되므로 여기선 아무것도 안 해요)
-      }, SILENCE_DELAY);
+        if(lstn) finL(lastTranscript);
+      }, SILENCE_MS);
     }
   };
 
   r.onerror=(e)=>{
-    if(e.error==='no-speech') return; // 누르는 동안 잠깐 조용한 건 OK
-    stopL();si('🎤');
-    if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
-    else ss('오류. 다시 시도해보세요');
+    clearTimeout(silenceTimer);
+    stopL(); si('🎤');
+    if(e.error==='no-speech') ss('소리가 안 들렸어요. 버튼을 다시 눌러보세요');
+    else if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
+    else ss('오류가 발생했어요. 다시 눌러보세요');
   };
 
   r.onend=()=>{
-    // continuous 모드에서 끊기면 버튼 누르고 있는 동안 자동 재시작
-    if(lstn && !loading && !spk){
-      try{ r.start(); }catch(e){}
-    }
+    lstn=false;
+    document.getElementById('vBtn').classList.remove('listening');
+    if(!loading&&!spk&&!silenceTimer) si('🎤');
   };
 
   rec=r;
   try{ r.start(); }catch(e){ ss('마이크를 시작할 수 없어요. 다시 눌러보세요'); }
 }
 
-function releaseListen(){
-  // 버튼에서 손 뗄 때 호출 — 지금까지 말한 내용 전송
-  if(!lstn) return;
+function finishEarly(){
+  // 버튼 다시 눌러서 즉시 전송
   clearTimeout(silenceTimer);
-  lstn=false;
-
-  // 마지막 결과 수집을 위해 잠깐 대기 후 종료
-  if(rec) try{ rec.stop(); }catch(e){}
-  document.getElementById('vBtn').classList.remove('listening');
-
-  setTimeout(()=>{
-    const text=accumulated.trim();
-    accumulated='';
-    if(!text){ ss('말이 감지되지 않았어요. 다시 눌러보세요'); si('🎤'); return; }
-    finL(text);
-  }, 300);
+  if(rec)try{rec.stop();}catch(e){}
+  // onend에서 lstn=false 처리됨
 }
 
 function stopL(){
   clearTimeout(silenceTimer);
   if(rec)try{rec.stop();}catch(e){}
-  lstn=false; accumulated='';
+  lstn=false;
   document.getElementById('vBtn').classList.remove('listening');
 }
 
 function finL(t){
-  if(!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');si('🎤');return;}
-  si('🎤'); ss('전송 중...');
-  addUser(t);
-  ms.push({role:'user',content:kor?`[KOREAN] ${t}`:t});
+  clearTimeout(silenceTimer);
+  stopL();
+  if(!t||!t.trim()){ss('말이 감지되지 않았어요. 버튼을 다시 눌러보세요');si('🎤');return;}
+  addUser(t.trim());
+  ms.push({role:'user',content:kor?`[KOREAN] ${t.trim()}`:t.trim()});
   callAI(ms,false,null);
 }
-
-// 버튼 이벤트 — 마우스 + 터치 모두 지원
-function setupVoiceBtn(){
-  const btn=document.getElementById('vBtn');
-
-  // 마우스 (PC)
-  btn.addEventListener('mousedown',(e)=>{e.preventDefault();if(!loading&&!spk)startListen();});
-  btn.addEventListener('mouseup',(e)=>{e.preventDefault();releaseListen();});
-  btn.addEventListener('mouseleave',(e)=>{if(lstn)releaseListen();});
-
-  // 터치 (모바일)
-  btn.addEventListener('touchstart',(e)=>{e.preventDefault();if(!loading&&!spk)startListen();},{passive:false});
-  btn.addEventListener('touchend',(e)=>{e.preventDefault();releaseListen();},{passive:false});
-  btn.addEventListener('touchcancel',(e)=>{if(lstn)releaseListen();},{passive:false});
-}
-
-// onclick은 더 이상 사용 안 함 — 이벤트로 대체
-function toggleListen(){ /* push-to-talk으로 교체됨 */ }
 
 // ══ TTS ════════════════════════════════════════
 function speak(text){
@@ -991,33 +1101,19 @@ function ss(t){document.getElementById('vStat').textContent=t;}
 function sh(t){document.getElementById('vHint').textContent=t;}
 function si(i){document.getElementById('vIcon').textContent=i;}
 
-// 스페이스바 = push-to-talk (누르는 동안 마이크)
-let spaceHeld=false;
+// 스페이스바 = 마이크 토글 / AI 인터럽트 (노트북)
 document.addEventListener('keydown',e=>{
-  if(e.code==='Space'&&!spaceHeld&&!document.getElementById('chat').classList.contains('hidden')&&e.target.tagName!=='INPUT'){
-    e.preventDefault(); spaceHeld=true;
-    if(!loading&&!spk) startListen();
-  }
-});
-document.addEventListener('keyup',e=>{
-  if(e.code==='Space'&&spaceHeld){
-    e.preventDefault(); spaceHeld=false;
-    releaseListen();
+  if(e.code==='Space'&&!document.getElementById('chat').classList.contains('hidden')&&e.target.tagName!=='INPUT'){
+    e.preventDefault(); toggleListen();
   }
 });
 
-// 힌트 메시지 업데이트 (채팅 화면 전환 시)
+// 힌트 업데이트
 const _origSetupUI=setupUI;
 setupUI=function(){
   _origSetupUI();
-  sh('버튼 누르는 동안 말해요 — 손 떼면 전송!');
-  setTimeout(setupVoiceBtn, 100);
+  sh('말 끝나고 3초 후 자동 전송 • 버튼 다시 누르면 즉시 전송');
 };
-
-// 초기 버튼 설정
-document.addEventListener('DOMContentLoaded', ()=>{
-  setupVoiceBtn();
-});
 </script>
 </body>
 </html>
