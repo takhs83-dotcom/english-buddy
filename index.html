@@ -976,15 +976,12 @@ function startListen(){
     lastTranscript=t;
     ss(`"${t}"`);
 
-    // 말 감지될 때마다 타이머 리셋
+    // isFinal 여부 관계없이 — 말 들어올 때마다 타이머 리셋
+    // 말이 멈추면 3초 후 자동 전송
     clearTimeout(silenceTimer);
-
-    if(e.results[e.results.length-1].isFinal){
-      // isFinal 확정 후 3초 더 기다림 (추가로 말할 수 있으니)
-      silenceTimer=setTimeout(()=>{
-        if(lstn) finL(lastTranscript);
-      }, SILENCE_MS);
-    }
+    silenceTimer=setTimeout(()=>{
+      if(lstn && lastTranscript.trim()) finL(lastTranscript);
+    }, SILENCE_MS);
   };
 
   r.onerror=(e)=>{
