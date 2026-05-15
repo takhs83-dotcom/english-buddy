@@ -979,7 +979,6 @@ function startListen(){
   };
 
   r.onresult=(e)=>{
-    // isFinal 텍스트만 누적 (중복 방지)
     let newFinal='';
     let interim='';
     for(let i=e.resultIndex;i<e.results.length;i++){
@@ -988,15 +987,17 @@ function startListen(){
     }
     if(newFinal) finalText+=newFinal;
 
-    // 화면 표시
+    // 화면에 인식 내용 표시
     const preview=(finalText+interim).trim();
     if(preview) ss(`"${preview}"`);
 
-    // isFinal 들어올 때마다 침묵 타이머 리셋
-    if(newFinal){
+    // ★ 핵심: isFinal이든 interim이든 뭔가 인식되면 무조건 타이머 리셋
+    // interim만 있어도 2.5초 침묵 후 전송
+    const sendText=(finalText+interim).trim();
+    if(sendText){
       clearTimeout(silenceTimer);
       silenceTimer=setTimeout(()=>{
-        if(lstn && finalText.trim()) finL(finalText.trim());
+        if(lstn && sendText) finL(sendText);
       }, SILENCE_MS);
     }
   };
