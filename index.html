@@ -928,98 +928,114 @@ function continueChat(){
 }
 
 // ══ STT ════════════════════════════════════════
-// 버튼 한 번 누르면 시작, 말 끝나고 3초 침묵하면 자동 전송
+// 방식: isFinal 텍스트 누적 + 버튼으로 즉시 전송
 // AI 말 중간에 버튼 누르면 즉시 끊고 내 차례
+let finalText = '';   // isFinal 확정 텍스트만 누적
 let silenceTimer = null;
-const SILENCE_MS = 3000; // 3초 — 비원어민 충분히 배려
+const SILENCE_MS = 2500;
 
 function toggleListen(){
-  // AI 말하는 중에 누르면 즉시 인터럽트!
+  // AI 말 중 누르면 즉시 인터럽트
   if(spk){
-    sy.cancel();
-    spk=false;
+    sy.cancel(); spk=false;
     document.getElementById('vBtn').classList.remove('speaking');
     document.getElementById('hStat').textContent='online ●';
-    si('🎤');
-    ss('버튼을 누르고 말해보세요');
-    sh('말 끝나고 3초 후 자동 전송 • 버튼 누르면 즉시 전송');
+    si('🎤'); ss('버튼을 누르고 말해보세요');
+    sh('말하면 자동 인식 • 버튼 다시 누르면 즉시 전송');
     return;
   }
   if(loading) return;
-  if(lstn){ finishEarly(); return; } // 말 중간에 다시 누르면 즉시 전송
+  if(lstn){
+    // 말하는 중에 다시 누르면 → 지금까지 내용 즉시 전송
+    clearTimeout(silenceTimer);
+    const t = finalText.trim();
+    stopL();
+    if(t) finL(t);
+    else ss('말이 감지되지 않았어요. 다시 눌러보세요');
+    return;
+  }
   startListen();
 }
 
 function startListen(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert('Chrome 또는 Safari를 사용해주세요!');return;}
+
+  finalText='';
   clearTimeout(silenceTimer);
 
   const r=new SR();
   r.lang=kor?'ko-KR':'en-US';
-  r.continuous=false;
+  r.continuous=true;       // 계속 듣기 — 끊기지 않음
   r.interimResults=true;
   r.maxAlternatives=1;
 
-  let lastTranscript='';
-
   r.onstart=()=>{
-    lstn=true; lastTranscript='';
+    lstn=true;
     si('⏹️');
     ss('듣고 있어요... 천천히 말해도 돼요! 🎤');
-    sh('말 끝나고 3초 후 자동 전송 • 버튼 다시 누르면 즉시 전송');
+    sh('말하면 자동 인식 • 버튼 다시 누르면 즉시 전송');
     document.getElementById('vBtn').classList.add('listening');
   };
 
   r.onresult=(e)=>{
-    const t=Array.from(e.results).map(x=>x[0].transcript).join('');
-    lastTranscript=t;
-    ss(`"${t}"`);
+    // isFinal 텍스트만 누적 (중복 방지)
+    let newFinal='';
+    let interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) newFinal+=e.results[i][0].transcript+' ';
+      else interim+=e.results[i][0].transcript;
+    }
+    if(newFinal) finalText+=newFinal;
 
-    // isFinal 여부 관계없이 — 말 들어올 때마다 타이머 리셋
-    // 말이 멈추면 3초 후 자동 전송
-    clearTimeout(silenceTimer);
-    silenceTimer=setTimeout(()=>{
-      if(lstn && lastTranscript.trim()) finL(lastTranscript);
-    }, SILENCE_MS);
+    // 화면 표시
+    const preview=(finalText+interim).trim();
+    if(preview) ss(`"${preview}"`);
+
+    // isFinal 들어올 때마다 침묵 타이머 리셋
+    if(newFinal){
+      clearTimeout(silenceTimer);
+      silenceTimer=setTimeout(()=>{
+        if(lstn && finalText.trim()) finL(finalText.trim());
+      }, SILENCE_MS);
+    }
   };
 
   r.onerror=(e)=>{
+    if(e.error==='no-speech') return; // continuous 모드에서 잠깐 조용한 건 OK
     clearTimeout(silenceTimer);
     stopL(); si('🎤');
-    if(e.error==='no-speech') ss('소리가 안 들렸어요. 버튼을 다시 눌러보세요');
-    else if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
+    if(e.error==='not-allowed') ss('마이크 권한을 허용해주세요!');
     else ss('오류가 발생했어요. 다시 눌러보세요');
   };
 
   r.onend=()=>{
-    lstn=false;
-    document.getElementById('vBtn').classList.remove('listening');
-    if(!loading&&!spk&&!silenceTimer) si('🎤');
+    // continuous 모드에서 끊기면 재시작 (lstn 중인 경우)
+    if(lstn && !loading && !spk){
+      try{ r.start(); }catch(e){}
+    } else {
+      lstn=false;
+      document.getElementById('vBtn').classList.remove('listening');
+      if(!loading&&!spk) si('🎤');
+    }
   };
 
   rec=r;
   try{ r.start(); }catch(e){ ss('마이크를 시작할 수 없어요. 다시 눌러보세요'); }
 }
 
-function finishEarly(){
-  // 버튼 다시 눌러서 즉시 전송
-  clearTimeout(silenceTimer);
-  if(rec)try{rec.stop();}catch(e){}
-  // onend에서 lstn=false 처리됨
-}
-
 function stopL(){
   clearTimeout(silenceTimer);
-  if(rec)try{rec.stop();}catch(e){}
   lstn=false;
+  if(rec)try{rec.stop();}catch(e){}
   document.getElementById('vBtn').classList.remove('listening');
 }
 
 function finL(t){
   clearTimeout(silenceTimer);
   stopL();
-  if(!t||!t.trim()){ss('말이 감지되지 않았어요. 버튼을 다시 눌러보세요');si('🎤');return;}
+  finalText='';
+  if(!t||!t.trim()){ss('말이 감지되지 않았어요. 다시 눌러보세요');si('🎤');return;}
   addUser(t.trim());
   ms.push({role:'user',content:kor?`[KOREAN] ${t.trim()}`:t.trim()});
   callAI(ms,false,null);
